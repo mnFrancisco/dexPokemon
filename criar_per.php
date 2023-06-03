@@ -1,65 +1,5 @@
 <?php
 include_once("layout/head.php");
-$user=buscausuario();
-$id_per = $_SESSION['id'];
-
-//personagem
-if(isset($_FILES['uploaded_file'])) {
-  $path = "images/perfil/";
-
-  $nome = $_FILES['uploaded_file']['name'];
-
-  $extensao = strrchr($nome,'.');
-
-  $novonome = md5(microtime()) . $extensao;
-
-  $path = $path.$novonome;
-  
-  $tam_img = $_FILES['uploaded_file']['size'];
-
-  $sql_foto = "INSERT INTO tbl_fotos (id_per,nome_foto, tamanho_foto, status_fotos) VALUES ($id_per,'$novonome', '$tam_img', 1)";
-  $roda_query = mysqli_query($con, $sql_foto);
-
-  if($roda_query && move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $path)) {
-      echo "O arquivo ". basename($nome) . " foi enviado com sucesso!";
-  } else {
-      echo "Houve um erro ao enviar seu arquivo!";
-  }
-}
-
-if(isset($_POST['idade']) != ''){  
-	$nome = $user['nome'];
-	$idade = $_POST['idade'];
-	$id_treiner = $_POST['id_trei'];
-	$regiao = $_POST['regiao'];
-	$cidade = $_POST['cidade'];
-	$insig = $_POST['insig'];
-	$mundial = $_POST['mundial'];
-  $pt_mundial = $_POST['pt_mundial'];
-  $pd = $_POST['pd'];
-  $contatos = $_POST['contatos'];
-
-  $sqlM = "INSERT INTO persona (id_per,nomeper,idade,id_trei,regiao,cidade,insig,pt_mundial,mundial,contatos,pd)
-  VALUES ($id_per,'$nome','$idade','$id_treiner','$regiao','$cidade','$insig','$mundial','$pt_mundial','$contatos','$pd')";
-  $roda_sql=mysqli_query($_SESSION['conexao'],$sqlM);
-
-  //classe
-  if(isset($_POST['nomeclas']) != ''){
-    $nome = $_POST['nomeclas'];
-    $efeito = $_POST['efeito'];
-    $bonus = $_POST['bonus'];
-    $afinidade = $_POST['afinidade'];
-    $ptorcida = $_POST['ptorcida'];
-    $evo = $_POST['evo']; 
-
-    $sqlH = "INSERT INTO classe (id_per,nomeclas,efeito,afinidade,ptorcida,evo,bonus) 
-    VALUES ($id_per,'$nome','$efeito','$afinidade','$ptorcida','$evo','$bonus')";
-    $roda_sql=mysqli_query($_SESSION['conexao'],$sqlH);
-    }
-
-}
-
-
 ?>
 
         <!-- page content -->
@@ -68,7 +8,57 @@ if(isset($_POST['idade']) != ''){
 
             <div class="clearfix"></div>
             <?php
+              $user=buscausuario();
+              $id_per = $_SESSION['id'];
               
+              //personagem
+              if(isset($_FILES['uploaded_file'])) {
+                $path = "images/perfil/";
+              
+                $nome = $_FILES['uploaded_file']['name'];
+              
+                $extensao = strrchr($nome,'.');
+              
+                $novonome = md5(microtime()) . $extensao;
+              
+                $path = $path.$novonome;
+                
+                $tam_img = $_FILES['uploaded_file']['size'];
+              
+                $sql_foto = "INSERT INTO tbl_fotos (id_per,nome_foto, nomemd5_foto,tamanho_foto, status_fotos) VALUES ($id_per,'$nome','$novonome', '$tam_img', 1)";
+                $roda_query = mysqli_query($con, $sql_foto);
+              
+                if($roda_query && move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $path)) {
+                    echo "O arquivo ". basename($nome) . " foi enviado com sucesso!";
+                } else {
+                    echo "Houve um erro ao enviar seu arquivo!";
+                }
+              }
+              
+              if(isset($_POST['idade']) != ''){  
+                $nome = $user['nome'];
+                $idade = $_POST['idade'];
+                $id_treiner = $_POST['id_trei'];
+                $regiao = $_POST['regiao'];
+                $cidade = $_POST['cidade'];
+                $insig = $_POST['insig'];
+                $mundial = $_POST['mundial'];
+                $pt_mundial = $_POST['pt_mundial'];
+                $peso = $_POST['peso'];
+                $altura = $_POST['altura'];
+                $dex = $_POST['dex'];
+                $mt = $_POST['mt'];
+              
+                $sqlM = "INSERT INTO persona (id_per,nomeper,idade,id_trei,regiao,cidade,insig,pt_mundial,mundial,peso,altura)
+                VALUES ($id_per,'$nome','$idade','$id_treiner','$regiao','$cidade','$insig','$mundial','$pt_mundial','$peso','$altura')";
+                $roda_sql=mysqli_query($_SESSION['conexao'],$sqlM);
+              
+                if($roda_sql){
+                  echo '';
+                }else{
+                  echo '';
+                }
+              }
             ?>
             
             <div class="row">
@@ -101,7 +91,7 @@ if(isset($_POST['idade']) != ''){
                         <div class="x_content" style="display: block;">
                           <br>
                           <form action="criar_per.php" method="POST" id="demo-form2" enctype="multipart/form-data" class="form-horizontal form-label-left" >
-                            <!--Começa Personagem-->
+                            <!--Topico do Trinador -->>
                             <h2>Personagem</h2>
 
                             <div class="item form-group">
@@ -146,6 +136,22 @@ if(isset($_POST['idade']) != ''){
                             </div>
 
                             <div class="item form-group">
+                              <label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Peso <span class="required">*</span>
+                              </label>
+                              <div class="col-md-6 col-sm-6 ">
+                                <input type="text" id="last-name" name="peso" required="required" class="form-control">
+                              </div>
+                            </div>
+
+                            <div class="item form-group">
+                              <label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Altura <span class="required">*</span>
+                              </label>
+                              <div class="col-md-6 col-sm-6 ">
+                                <input type="text" id="last-name" name="altura" required="required" class="form-control">
+                              </div>
+                            </div>
+
+                            <div class="item form-group">
                               <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">ID. de Trinador</label>
                               <div class="col-md-6 col-sm-6 ">
                                 <input id="middle-name" class="form-control" type="text" name="id_trei">
@@ -153,12 +159,46 @@ if(isset($_POST['idade']) != ''){
                             </div>
 
                             <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Metodo de Treinamento<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <select class="select2_group form-control" name="mt">
+                                            <option value="emcorajador" name="mt">Emcorajador</option>
+                                            <option value="ofensivo" name="mt">Ofensivo</option>
+                                            <option value="resistente" name="mt">Resistente</option>
+                                            <option value="estrategico" name="mt">Estrategico</option>
+                                            <option value="protetor" name="mt">Protetor</option>
+                                            <option value="agil" name="mt">Agil</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            <!--Topico do Trinador -->
+
+                            <!--Topico das comquistas -->
+                            
+                            <div class="item form-group">
                               <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Insignias</label>
                               <div class="col-md-6 col-sm-6 ">
                                 <input id="middle-name" class="form-control" type="text" name="insig">
                               </div>
                             </div>
 
+                            <div class="item form-group">
+                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Torneios</label>
+                              <div class="col-md-6 col-sm-6 ">
+                                <input id="middle-name" class="form-control" type="text" name="torneios">
+                              </div>
+                            </div>
+
+                            <div class="item form-group">
+                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Dex</label>
+                              <div class="col-md-6 col-sm-6 ">
+                                <input id="middle-name" class="form-control" type="text" name="dex">
+                              </div>
+                            </div>
+                            <!--Topico das comquistas -->
+
+                            <!--Topico do mundial -->
                             <div class="item form-group">
                               <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Ranking Mundial</label>
                               <div class="col-md-6 col-sm-6 ">
@@ -172,71 +212,8 @@ if(isset($_POST['idade']) != ''){
                                 <input id="middle-name" class="form-control" type="text" name="pt_mundial">
                               </div>
                             </div>
+                            <!--Topico do mundial -->
 
-                            <div class="item form-group">
-                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">P.d</label>
-                              <div class="col-md-6 col-sm-6 ">
-                                <input id="middle-name" class="form-control" type="text" name="pd">
-                              </div>
-                            </div>
-
-                            <!--Começa amigos-->
-                              <div class="item form-group">
-                                <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Amigos/Contatos</label>
-                                <div class="col-md-6 col-sm-6 ">
-                                  <input id="middle-name" class="form-control" type="text" name="contatos">
-                                </div>
-                              </div>
-                              <!--Termina amigos-->
-
-                            <!-- Termina Personagem -->
-
-                            <div class="ln_solid"></div>
-
-                            <!--Comaça clase-->
-                            <h2>Classe</h2>
-                            <div class="item form-group">
-                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Nome da classe <span class="required">*</span></label>
-                              <div class="col-md-6 col-sm-6 ">
-                                <input id="middle-name" class="form-control" type="text" name="nomeclas">
-                              </div>
-                            </div>
-
-                            <div class="item form-group">
-                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Efeito</label>
-                              <div class="col-md-6 col-sm-6 ">
-                                <input id="middle-name" class="form-control" type="text" name="efeito">
-                              </div>
-                            </div>
-
-                            <div class="item form-group">
-                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Afinidade</label>
-                              <div class="col-md-6 col-sm-6 ">
-                                <input id="middle-name" class="form-control" type="text" name="afinidade">
-                              </div>
-                            </div>
-
-                            <div class="item form-group">
-                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Bonus</label>
-                              <div class="col-md-6 col-sm-6 ">
-                                <input id="middle-name" class="form-control" type="text" name="bonus">
-                              </div>
-                            </div>
-
-                            <div class="item form-group">
-                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Poder de torcida</label>
-                              <div class="col-md-6 col-sm-6 ">
-                                <input id="middle-name" class="form-control" type="text" name="ptorcida">
-                              </div>
-                            </div>
-
-                            <div class="item form-group">
-                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Evolução</label>
-                              <div class="col-md-6 col-sm-6 ">
-                                <input id="middle-name" class="form-control" type="text" name="evo">
-                              </div>
-                            </div>
-                            <!--Termina clase-->
 
                             <div class="ln_solid"></div>
 

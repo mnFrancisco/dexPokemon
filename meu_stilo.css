@@ -4,6 +4,11 @@
     margin: 0px;
     padding: 0px;
 }
+.treinador{
+    border-bottom: solid;
+    border-color: white;
+    border-width: thin;
+}
 .perfils{
     display: flex;
 }
@@ -14,15 +19,21 @@
     display: none;
 }
 a:visited{
-    color: #00e7ff;
+    color: #860000;
 }
 .mostrar_esconder{
     padding: 5px;
     background-color: #ff0000;
     color: #000000;
 }
+.h3,h3{
+    font-size: 20px;
+}
+h2{
+    font-size: 1.6rem;
+}
 p,li{
-    font-size: 1.1rem;
+    font-size: 19px;
 }
 ul{
     text-decoration: none;
@@ -48,7 +59,6 @@ ul{
 }
 article p {
     text-align: start;
-    font-size: 17px;
     text-indent: 0%;
     margin: 0%;
 }
@@ -64,9 +74,8 @@ article div{
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: baseline;
-
-    font-size: 21px;
-    margin-bottom: 97px;
+    /*margin-bottom: 97px;*/
+    margin-top: 10px;
 }
 .tb-responsiva>.cont{
     max-width: 190px;
@@ -194,7 +203,7 @@ body .container.body .right_col {
     color: whitesmoke;
 }
 body {
-    color: #aee1df;
+    color: #bbbbbbf2;
     background: #000000;
     
 }

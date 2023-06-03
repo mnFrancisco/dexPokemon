@@ -166,20 +166,7 @@ function verificamestre(){
   $linha = mysqli_fetch_array($result, MYSQLI_ASSOC);
   return $linha;
 }
-function fichaClas(){
-  $id = $_SESSION['id'];
-  $sql = "SELECT * FROM classe p LEFT JOIN personagem d ON p.id_per = d.id where id_per=$id;";
-  $result = mysqli_query($_SESSION['conexao'],$sql);
-  $linha = mysqli_fetch_array($result, MYSQLI_ASSOC);
-  return $linha;
-}
-function fichaSkill(){
-  $id = $_SESSION['id'];
-  $sql = "SELECT * FROM skill p LEFT JOIN personagem d ON p.id_per = d.id where id_per=$id;";
-  $result = mysqli_query($_SESSION['conexao'],$sql);
-  $linha = mysqli_fetch_array($result, MYSQLI_ASSOC);
-  return $linha;
-}
+
 function fichaFoto(){
   $id = $_SESSION['id'];
   $sql = "SELECT * FROM tbl_fotos where id_per=$id;";
@@ -221,7 +208,99 @@ function encerrarSesao(){
 
   }
 }
+//almentar  e diminuir estatus
+function contaSatus(){
+  // status hp mais
+  if(isset($_GET['hp_mais']) == 'hp_mais'){
+    $sql="SELECT hp From persona WHERE id_persona = ".$_GET['hp_mais'];
+    $resp_sql = mysqli_query($_SESSION['conexao'],$sql);
+    $linha=mysqli_fetch_array($resp_sql,MYSQLI_ASSOC);
 
+    if($resp_sql){
+      $menus = $linha['hp'] + 1;
+      
+      $menos_sql="UPDATE persona SET hp = $menus WHERE id_persona = ".$_GET['hp_mais'];
+      $resposta = mysqli_query($_SESSION['conexao'],$menos_sql);
+
+    }
+  }
+  // status hp menos
+  if(isset($_GET['hp_menos']) == 'hp_menos'){
+    $sql="SELECT hp From persona WHERE id_persona = ".$_GET['hp_menos'];
+    $resp_sql = mysqli_query($_SESSION['conexao'],$sql);
+    $linha=mysqli_fetch_array($resp_sql,MYSQLI_ASSOC);
+
+    if($resp_sql){
+      $menus = $linha['hp'] - 1;
+      
+      $menos_sql="UPDATE persona SET hp = $menus WHERE id_persona = ".$_GET['hp_menos'];
+      $resposta = mysqli_query($_SESSION['conexao'],$menos_sql);
+      
+    }
+  }
+  // status estamina mais
+  if(isset($_GET['stamina_mais']) == 'stamina_mais'){
+    $sql="SELECT stamina From persona WHERE id_persona = ".$_GET['stamina_mais'];
+    $resp_sql = mysqli_query($_SESSION['conexao'],$sql);
+    $linha=mysqli_fetch_array($resp_sql,MYSQLI_ASSOC);
+
+    if($resp_sql){
+      $menus = $linha['stamina'] + 1;
+      
+      $menos_sql="UPDATE persona SET stamina = $menus WHERE id_persona = ".$_GET['stamina_mais'];
+      $resposta = mysqli_query($_SESSION['conexao'],$menos_sql);
+
+    }
+  }
+  // status estamina menos
+  if(isset($_GET['stamina_menos']) == 'stamina_menos'){
+    $sql="SELECT stamina From persona WHERE id_persona = ".$_GET['stamina_menos'];
+    $resp_sql = mysqli_query($_SESSION['conexao'],$sql);
+    $linha=mysqli_fetch_array($resp_sql,MYSQLI_ASSOC);
+
+    if($resp_sql){
+      $menus = $linha['stamina'] - 1;
+      
+      $menos_sql="UPDATE persona SET stamina = $menus WHERE id_persona = ".$_GET['stamina_menos'];
+      $resposta = mysqli_query($_SESSION['conexao'],$menos_sql);
+      
+    }
+  }
+  // status deslocamento mais
+  if(isset($_GET['desloc_mais']) == 'desloc_mais'){
+    $sql="SELECT determinacao From persona WHERE id_persona = ".$_GET['desloc_mais'];
+    $resp_sql = mysqli_query($_SESSION['conexao'],$sql);
+    $linha=mysqli_fetch_array($resp_sql,MYSQLI_ASSOC);
+
+    if($resp_sql){
+      $menus = $linha['determinacao'] + 1;
+      
+      $menos_sql="UPDATE persona SET determinacao = $menus WHERE id_persona = ".$_GET['desloc_mais'];
+      $resposta = mysqli_query($_SESSION['conexao'],$menos_sql);
+
+    }
+  }
+  // status deslocamento menos
+  if(isset($_GET['desloc_menos']) == 'desloc_menos'){
+    $sql="SELECT determinacao From persona WHERE id_persona = ".$_GET['desloc_menos'];
+    $resp_sql = mysqli_query($_SESSION['conexao'],$sql);
+    $linha=mysqli_fetch_array($resp_sql,MYSQLI_ASSOC);
+
+    if($resp_sql){
+        $menus = $linha['determinacao'] - 1;
+      
+        $menos_sql="UPDATE persona SET determinacao = $menus WHERE id_persona = ".$_GET['desloc_menos'];
+        $resposta = mysqli_query($_SESSION['conexao'],$menos_sql);
+
+      } 
+    }
+}
+
+//busca metodo de treinamento
+function mt(){
+  $id=$_SESSION['id'];
+  $sql = "SELECT * from personagem WHERE id= $id";
+}
 function tamanhaString($sobre){
     
     echo strlen($sobre);
