@@ -264,6 +264,7 @@ if (mysqli_connect_errno()) {
 											<div class="col-md-6 col-sm-6 ">
 												<input type="number" id="last-name" name="atk" value="<?php echo $linha['atk']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
 											</div>
+                      
                       <!--Evs do HP-->
                       <div class="col-md-3 col-sm-3 ">
 												<input type="number" id="last-name" name="atk" value="<?php echo $linha['atk']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
