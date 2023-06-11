@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03-Fev-2023 às 15:18
--- Versão do servidor: 10.4.21-MariaDB
--- versão do PHP: 8.0.12
+-- Tempo de geração: 11-Jun-2023 às 02:39
+-- Versão do servidor: 10.4.25-MariaDB
+-- versão do PHP: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,48 +24,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `classe`
---
-
-CREATE TABLE `classe` (
-  `id_classe` int(10) NOT NULL,
-  `id_per` int(10) DEFAULT NULL,
-  `nomeclas` varchar(20) DEFAULT NULL,
-  `efeito` tinytext DEFAULT NULL,
-  `afinidade` tinytext DEFAULT NULL,
-  `bonus` tinytext DEFAULT NULL,
-  `ptorcida` tinytext DEFAULT NULL,
-  `evo` tinytext DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `classe`
---
-
-INSERT INTO `classe` (`id_classe`, `id_per`, `nomeclas`, `efeito`, `afinidade`, `bonus`, `ptorcida`, `evo`) VALUES
-(1, 1, 'wdwad', 'wafawf', 'wsfaws', 'fwafa', 'wfaw', 'fawfaw'),
-(2, 1, 'wdwad', 'wafawf', 'wsfaws', 'fwafa', 'wfaw', 'fawfaw');
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `mochila`
 --
 
 CREATE TABLE `mochila` (
   `id_per` int(10) DEFAULT NULL,
+  `peso_max` varchar(20) DEFAULT NULL,
   `peso_usado` varchar(3) DEFAULT NULL,
   `nome_item` varchar(30) DEFAULT NULL,
   `qnt_item` int(4) DEFAULT NULL,
   `id_item` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Extraindo dados da tabela `mochila`
+-- Estrutura da tabela `npc`
 --
 
-INSERT INTO `mochila` (`id_per`, `peso_usado`, `nome_item`, `qnt_item`, `id_item`) VALUES
-(1, '0.1', 'cszc', 1, 1);
+CREATE TABLE `npc` (
+  `id_npc` int(10) NOT NULL,
+  `nome_npc` varchar(50) DEFAULT NULL,
+  `classe_npc` varchar(50) DEFAULT NULL,
+  `time_npc` varchar(500) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -82,19 +64,25 @@ CREATE TABLE `persona` (
   `idade` int(4) DEFAULT NULL,
   `id_trei` varchar(4) DEFAULT NULL,
   `mundial` varchar(4) DEFAULT NULL,
+  `pt_mundial` int(10) NOT NULL DEFAULT 0,
   `insig` varchar(4) DEFAULT NULL,
-  `contatos` varchar(500) NOT NULL,
-  `hp` varchar(4) NOT NULL DEFAULT '5',
-  `stamina` varchar(4) NOT NULL DEFAULT '10',
-  `desloc` varchar(4) NOT NULL DEFAULT '3'
+  `hp` varchar(4) NOT NULL DEFAULT '20',
+  `stamina` varchar(4) NOT NULL DEFAULT '20',
+  `determinacao` varchar(4) NOT NULL DEFAULT '20',
+  `altura` varchar(3) NOT NULL,
+  `peso` varchar(3) NOT NULL,
+  `dex` int(11) NOT NULL,
+  `mtrei` varchar(20) NOT NULL,
+  `torneios` varchar(3) NOT NULL DEFAULT '0',
+  `contest` varchar(3) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `persona`
 --
 
-INSERT INTO `persona` (`id_persona`, `id_per`, `nomeper`, `regiao`, `cidade`, `idade`, `id_trei`, `mundial`, `insig`, `contatos`, `hp`, `stamina`, `desloc`) VALUES
-(2, 1, 'mestre', 'asds', 'fasda', 25, '2452', '452', '2', 'asf', '5', '10', '3');
+INSERT INTO `persona` (`id_persona`, `id_per`, `nomeper`, `regiao`, `cidade`, `idade`, `id_trei`, `mundial`, `pt_mundial`, `insig`, `hp`, `stamina`, `determinacao`, `altura`, `peso`, `dex`, `mtrei`, `torneios`, `contest`) VALUES
+(4, 18, 'Violetta Sold', 'Unova', 'Opelucid', 12, '524', '1800', 121, '2', '20', '20', '20', '1.5', '45', 0, 'Emcorajador', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -114,7 +102,7 @@ CREATE TABLE `personagem` (
 --
 
 INSERT INTO `personagem` (`id`, `nome`, `email`, `password`) VALUES
-(1, 'mestre', 'mestre@gmail.com', '5a1b210846cd2a7849f914ccfccb5d55');
+(18, 'Vi', 'vi123@gmail.com', 'e10adc3949ba59abbe56e057f20f883e');
 
 -- --------------------------------------------------------
 
@@ -126,9 +114,14 @@ CREATE TABLE `poke` (
   `id_poke` int(10) NOT NULL,
   `id_per` int(10) NOT NULL,
   `nome` varchar(30) DEFAULT NULL,
+  `tipo` varchar(200) NOT NULL,
+  `regiao` varchar(100) NOT NULL DEFAULT 'kanto',
+  `xpshare` tinyint(1) NOT NULL DEFAULT 0,
+  `crescimento` varchar(200) NOT NULL,
   `t_type` varchar(50) DEFAULT NULL,
   `hab` varchar(20) DEFAULT NULL,
   `nature` varchar(20) DEFAULT NULL,
+  `pt_nat` int(10) NOT NULL,
   `xp` int(10) DEFAULT NULL,
   `lv` int(10) DEFAULT NULL,
   `hp` int(4) DEFAULT NULL,
@@ -141,36 +134,9 @@ CREATE TABLE `poke` (
   `ami` int(4) DEFAULT NULL,
   `moves` varchar(500) NOT NULL,
   `tcap` varchar(20) DEFAULT NULL,
-  `status` int(10) NOT NULL DEFAULT 0,
-  `shyni` varchar(20) NOT NULL DEFAULT 'normal'
+  `shyni` varchar(20) NOT NULL DEFAULT 'normal',
+  `status` int(10) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `poke`
---
-
-INSERT INTO `poke` (`id_poke`, `id_per`, `nome`, `t_type`, `hab`, `nature`, `xp`, `lv`, `hp`, `atk`, `satk`, `def`, `sdef`, `speed`, `desloc`, `ami`, `moves`, `tcap`, `status`, `shyni`) VALUES
-(1, 1, 'Giratina', 'ashdg', 'DKr', 'jsdan', 1, 11, 1, 1, 11, 1, 1, 11, 1, 1, '1', 'Recompensa', 1, 'normal');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `skill`
---
-
-CREATE TABLE `skill` (
-  `id_per` int(10) DEFAULT NULL,
-  `skill` varchar(20) DEFAULT NULL,
-  `spontos` varchar(3) NOT NULL,
-  `id_skill` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `skill`
---
-
-INSERT INTO `skill` (`id_per`, `skill`, `spontos`, `id_skill`) VALUES
-(1, 'dsa', '-1', 1);
 
 -- --------------------------------------------------------
 
@@ -192,18 +158,11 @@ CREATE TABLE `tbl_fotos` (
 --
 
 INSERT INTO `tbl_fotos` (`id_foto`, `id_per`, `nome_foto`, `nomemd5_foto`, `tamanho_foto`, `status_fotos`) VALUES
-(2, 1, 'padrao.png', '5331d2221e36f9b9d0470c3438659286.png', '143804', '1');
+(4, 18, 'vi(4).jpg', '4f9cef801fa9783b8456ae1638ffa135.jpg', '109749', '1');
 
 --
 -- Índices para tabelas despejadas
 --
-
---
--- Índices para tabela `classe`
---
-ALTER TABLE `classe`
-  ADD PRIMARY KEY (`id_classe`),
-  ADD KEY `id_per` (`id_per`);
 
 --
 -- Índices para tabela `mochila`
@@ -211,6 +170,12 @@ ALTER TABLE `classe`
 ALTER TABLE `mochila`
   ADD PRIMARY KEY (`id_item`),
   ADD KEY `id_per` (`id_per`);
+
+--
+-- Índices para tabela `npc`
+--
+ALTER TABLE `npc`
+  ADD PRIMARY KEY (`id_npc`);
 
 --
 -- Índices para tabela `persona`
@@ -233,13 +198,6 @@ ALTER TABLE `poke`
   ADD KEY `id_per` (`id_per`);
 
 --
--- Índices para tabela `skill`
---
-ALTER TABLE `skill`
-  ADD PRIMARY KEY (`id_skill`),
-  ADD KEY `id_per` (`id_per`);
-
---
 -- Índices para tabela `tbl_fotos`
 --
 ALTER TABLE `tbl_fotos`
@@ -251,56 +209,38 @@ ALTER TABLE `tbl_fotos`
 --
 
 --
--- AUTO_INCREMENT de tabela `classe`
---
-ALTER TABLE `classe`
-  MODIFY `id_classe` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT de tabela `mochila`
 --
 ALTER TABLE `mochila`
-  MODIFY `id_item` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_item` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `id_persona` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_persona` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `personagem`
 --
 ALTER TABLE `personagem`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de tabela `poke`
 --
 ALTER TABLE `poke`
-  MODIFY `id_poke` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de tabela `skill`
---
-ALTER TABLE `skill`
-  MODIFY `id_skill` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_poke` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_fotos`
 --
 ALTER TABLE `tbl_fotos`
-  MODIFY `id_foto` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_foto` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restrições para despejos de tabelas
 --
-
---
--- Limitadores para a tabela `classe`
---
-ALTER TABLE `classe`
-  ADD CONSTRAINT `classe_ibfk_1` FOREIGN KEY (`id_per`) REFERENCES `personagem` (`id`);
 
 --
 -- Limitadores para a tabela `mochila`
@@ -319,12 +259,6 @@ ALTER TABLE `persona`
 --
 ALTER TABLE `poke`
   ADD CONSTRAINT `poke_ibfk_1` FOREIGN KEY (`id_per`) REFERENCES `personagem` (`id`);
-
---
--- Limitadores para a tabela `skill`
---
-ALTER TABLE `skill`
-  ADD CONSTRAINT `skill_ibfk_1` FOREIGN KEY (`id_per`) REFERENCES `personagem` (`id`);
 
 --
 -- Limitadores para a tabela `tbl_fotos`
