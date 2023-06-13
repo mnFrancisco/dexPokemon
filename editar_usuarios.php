@@ -267,28 +267,56 @@ if (mysqli_connect_errno()) {
 											</div>
 										</div>
 
+                    <!--Def-->
                     <div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Def: <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												<input type="number" id="last-name" name="def" value="<?php echo $linha['def']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
 											</div>
+
+                      <!--Evs da Def-->
+                      <label class="col-form-label col-md-1 col-sm-1 label-align" for="last-name">Ev: <span class="required">*</span>
+											</label>
+                        <div class="col-md-1 col-sm-1 ">
+                          <input type="number" id="last-name" name="hp" value="<?php echo $linha['ev_def']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7">
+                        </div>
+										  </div>
+
 										</div>
 
+                    <!--Sp.Def-->
                     <div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Sp.def: <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												<input type="number" id="last-name" name="sdef" value="<?php echo $linha['sdef']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
 											</div>
+
+                      <!--Evs da Sp.def-->
+                      <label class="col-form-label col-md-1 col-sm-1 label-align" for="last-name">Ev: <span class="required">*</span>
+											</label>
+                        <div class="col-md-1 col-sm-1 ">
+                          <input type="number" id="last-name" name="hp" value="<?php echo $linha['ev_def']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7">
+                        </div>
+										  </div>
 										</div>
 
+                    <!--Speed-->
                     <div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Speed: <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
 												<input type="number" id="last-name" name="speed" value="<?php echo $linha['speed']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
 											</div>
+
+                      <!--Evs da Speed-->
+                      <label class="col-form-label col-md-1 col-sm-1 label-align" for="last-name">Ev: <span class="required">*</span>
+											</label>
+                        <div class="col-md-1 col-sm-1 ">
+                          <input type="number" id="last-name" name="hp" value="<?php echo $linha['ev_speed']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7">
+                        </div>
+										  </div>
 										</div>
 
                     <!--<div class="item form-group">
