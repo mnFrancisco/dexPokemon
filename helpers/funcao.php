@@ -326,31 +326,45 @@ function log_erro_ALL(){
   ini_set('error_log','error.log');//cria arquivo de log de erro
 }
 
-function ar(){
-  $sql = "SELECT * FROM persona p LEFT JOIN personagem d ON p.id_per = d.id where id_per=$id";
-    $result = mysqli_query($_SESSION['conexao'],$sql);
-    $linha = mysqli_fetch_array($result, MYSQLI_ASSOC);
+function calcularModificadores($natureUrl) {
+  $natureData = json_decode(file_get_contents($natureUrl), true);
 
-    if($linha['nature'] == 'serious'){
-      $linha['speed']=$linha['speed']+$linha['lv']*1;
-    }
-    if($linha['nature'] =='bashful'){
-        $linha['satk'] = $linha['satk']+$linha['lv']*1;
-    }
-    if($linha['nature'] =='docile'){
-        $linha['def'] = $linha['def']+$linha['lv']*1;
-    }
-    if($linha['nature'] =='hardy'){
-        $linha['atk'] = $linha['atk']+$linha['lv']*1;
-    }
-    if($linha['nature'] =='quirky'){
-        $linha['sdef'] = $linha['sdef']+$linha['lv']*1;
+  $modificadores = array();
+  if (isset($natureData['decreased_stat'])) {
+      foreach ($natureData['decreased_stat'] as $stat) {
+          $modificadores[$stat['stat']['name']] = -0.1;
+      }
+  }
+  if (isset($natureData['increased_stat'])) {
+      foreach ($natureData['increased_stat'] as $stat) {
+          $modificadores[$stat['stat']['name']] = 0.1;
+      }
+  }
 
-    }if($linha['nature'] !='serious' && $linha['nature'] !='bashful' && $linha['nature'] !='docile' && $linha['nature'] !='hardy' && $linha['nature'] !='quirky'){
+  return $modificadores;
+}
 
-    }else{
+
+
+
+function natureCalculo() {
+  if ($_POST['nature'] == 'serious') {
+      return $_POST['speed'] + $_POST['lv'] * 1;
+  }
+  if ($_POST['nature'] == 'bashful') {
+      return $_POST['satk'] + $_POST['lv'] * 1;
+  }
+  if ($_POST['nature'] == 'docile') {
+      return $_POST['def'] + $_POST['def'] *0.1;
+  }
+  if ($_POST['nature'] == 'hardy') {
+      return $_POST['atk'] + $_POST['lv'] * 1;
+  }
+  if ($_POST['nature'] == 'quirky') {
+      return $_POST['sdef'] + $_POST['lv'] * 1;
+  }else{
       // pega os dados da nature
-      $api_link = "https://pokeapi.co/api/v2/nature/".strtolower($linha['nature']);
+      $api_link = "https://pokeapi.co/api/v2/nature/".strtolower($_POST['nature']);
       $response = file_get_contents($api_link);
       $dados_nature = json_decode($response, true);
 
@@ -361,171 +375,173 @@ function ar(){
       // calculo da nature Naughty/safadinho
       if($nature_name == 'naughty'){
           if($increased_stat == 'attack'){
-          $linha['atk'] = $linha['atk']+$linha['lv']*1;
+          $_POST['atk'] = $_POST['atk']+$_POST['lv']*1;
           }if($decreased_stat == 'special-defense'){
-          $linha['sdef'] = $linha['sdef'] - $linha['lv']*1;
+          $_POST['sdef'] = $_POST['sdef'] - $_POST['lv']*1;
           }
       }
       // calculo da nature lonely/solitario
       if($nature_name == 'lonely'){
           if($increased_stat == 'attack'){
-              $linha['atk'] = $linha['atk']+$linha['lv']*1;
+              $_POST['atk'] = $_POST['atk']+$_POST['lv']*1;
           }if($decreased_stat == 'defense'){
-              $linha['def'] = $linha['def'] - $linha['lv']*1;
+              $_POST['def'] = $_POST['def'] - $_POST['lv']*1;
           }
       }
       // calculo da nature brave/valente
       if($nature_name == 'brave'){
           if($increased_stat == 'attack'){
-              $linha['atk'] = $linha['atk']+$linha['lv']*1;
+              $_POST['atk'] = $_POST['atk']+$_POST['lv']*1;
           }if($decreased_stat == 'speed'){
-              $linha['speed'] = $linha['speed'] - $linha['lv']*1;
+              $_POST['speed'] = $_POST['speed'] - $_POST['lv']*1;
           }
       }
       // calculo da nature adamant
       if($nature_name == 'adamant'){
           if($increased_stat == 'attack'){
-              $linha['atk'] = $linha['atk']+$linha['lv']*1;
+              $_POST['atk'] = $_POST['atk']+$_POST['lv']*1;
           }if($decreased_stat == 'special-attack'){
-              $linha['satk'] = $linha['satk'] - $linha['lv']*1;
+              $_POST['satk'] = $_POST['satk'] - $_POST['lv']*1;
           }
       }
       // calculo da nature bold
       if($nature_name == 'bold'){
           if($increased_stat == 'defense'){
-              $linha['def'] = $linha['def']+$linha['lv']*1;
+              $_POST['def'] = $_POST['def']+$_POST['lv']*1;
           }if($decreased_stat == 'attack'){
-              $linha['atk'] = $linha['atk'] - $linha['lv']*1;
+              $_POST['atk'] = $_POST['atk'] - $_POST['lv']*1;
           }
       }
       // calculo da nature relaxed/relaxado
       if($nature_name == 'relaxed'){
           if($increased_stat == 'defense'){
-              $linha['def'] = $linha['def']+$linha['lv']*1;
+              $_POST['def'] = $_POST['def']+$_POST['lv']*1;
           }if($decreased_stat == 'speed'){
-              $linha['speed'] = $linha['speed'] - $linha['lv']*1;
+              $_POST['speed'] = $_POST['speed'] - $_POST['lv']*1;
           }
       }
       // calculo da nature impish
       if($nature_name == 'impish'){
           if($increased_stat == 'defense'){
-              $linha['def'] = $linha['def']+$linha['lv']*1;
+              $_POST['def'] = $_POST['def']+$_POST['lv']*1;
           }if($decreased_stat == 'special-attack'){
-              $linha['satk'] = $linha['satk'] - $linha['lv']*1;
+              $_POST['satk'] = $_POST['satk'] - $_POST['lv']*1;
           }
       }
       // calculo da nature lax
       if($nature_name == 'lax'){
           if($increased_stat == 'defense'){
-              $linha['def'] = $linha['def']+$linha['lv']*1;
+              $_POST['def'] = $_POST['def']+$_POST['lv']*1;
           }if($decreased_stat == 'special-defense'){
-              $linha['satk'] = $linha['satk'] - $linha['lv']*1;
+              $_POST['satk'] = $_POST['satk'] - $_POST['lv']*1;
           }
       }
       // calculo da nature timid/timido
       if($nature_name == 'timid'){
           if($increased_stat == 'speed'){
-              $linha['speed'] = $linha['speed']+$linha['lv']*1;
+              $_POST['speed'] = $_POST['speed']+$_POST['lv']*1;
           }if($decreased_stat == 'attack'){
-              $linha['atk'] = $linha['atk'] - $linha['lv']*1;
+              $_POST['atk'] = $_POST['atk'] - $_POST['lv']*1;
           }
       }
       // calculo da nature hasty/apresado
       if($nature_name == 'hasty'){
           if($increased_stat == 'speed'){
-              $linha['speed'] = $linha['speed']+$linha['lv']*1;
+              $_POST['speed'] = $_POST['speed']+$_POST['lv']*1;
           }if($decreased_stat == 'defense'){
-              $linha['def'] = $linha['def'] - $linha['lv']*1;
+              $_POST['def'] = $_POST['def'] - $_POST['lv']*1;
           }
       }
       // calculo da nature jolly/
       if($nature_name == 'jolly'){
           if($increased_stat == 'speed'){
-              $linha['speed'] = $linha['speed']+$linha['lv']*1;
+              $_POST['speed'] = $_POST['speed']+$_POST['lv']*1;
           }if($decreased_stat == 'special-attack'){
-              $linha['satk'] = $linha['satk'] - $linha['lv']*1;
+              $_POST['satk'] = $_POST['satk'] - $_POST['lv']*1;
           }
       }
       // calculo da nature naive/
       if($nature_name == 'naive'){
           if($increased_stat == 'speed'){
-              $linha['speed'] = $linha['speed']+$linha['lv']*1;
+              $_POST['speed'] = $_POST['speed']+$_POST['lv']*1;
           }if($decreased_stat == 'special-defense'){
-              $linha['sdef'] = $linha['sdef'] - $linha['lv']*1;
+              $_POST['sdef'] = $_POST['sdef'] - $_POST['lv']*1;
           }
       }
       // calculo da nature modest/modesto
       if($nature_name == 'modest'){
           if($increased_stat == 'special-attack'){
-              $linha['satk'] = $linha['satk']+$linha['lv']*1;
+              $_POST['satk'] = $_POST['satk']+$_POST['lv']*1;
           }if($decreased_stat == 'attack'){
-              $linha['atk'] = $linha['atk'] - $linha['lv']*1;
+              $_POST['atk'] = $_POST['atk'] - $_POST['lv']*1;
           }
       }
       // calculo da nature mild/
       if($nature_name == 'mild'){
           if($increased_stat == 'special-attack'){
-              $linha['satk'] = $linha['satk']+$linha['lv']*1;
+              $_POST['satk'] = $_POST['satk']+$_POST['lv']*1;
           }if($decreased_stat == 'defense'){
-              $linha['def'] = $linha['def'] - $linha['lv']*1;
+              $_POST['def'] = $_POST['def'] - $_POST['lv']*1;
           }
       }
       // calculo da nature quiet/
       if($nature_name == 'quiet'){
           if($increased_stat == 'special-attack'){
-              $linha['satk'] = $linha['satk']+$linha['lv']*1;
+              $_POST['satk'] = $_POST['satk']+$_POST['lv']*1;
           }if($decreased_stat == 'speed'){
-              $linha['speed'] = $linha['speed'] - $linha['lv']*1;
+              $_POST['speed'] = $_POST['speed'] - $_POST['lv']*1;
           }
       }
       // calculo da nature rash/
       if($nature_name == 'rash'){
           if($increased_stat == 'special-attack'){
-              $linha['satk'] = $linha['satk']+$linha['lv']*1;
+              $_POST['satk'] = $_POST['satk']+$_POST['lv']*1;
           }if($decreased_stat == 'special-defense'){
-              $linha['sdef'] = $linha['sdef'] - $linha['lv']*1;
+              $_POST['sdef'] = $_POST['sdef'] - $_POST['lv']*1;
           }
       }
       // calculo da nature calm/
       if($nature_name == 'calm'){
           if($increased_stat == 'special-defense'){
-              $linha['sdef'] = $linha['sdef']+$linha['lv']*1;
+              $_POST['sdef'] = $_POST['sdef']+$_POST['lv']*1;
               
           }if($decreased_stat == 'attack'){
-              $linha['atk'] = $linha['atk'] - $linha['lv']*1;
+              $_POST['atk'] = $_POST['atk'] - $_POST['lv']*1;
               
           }
       }
       // calculo da nature gentle/
       if($nature_name == 'gentle'){
           if($increased_stat == 'special-defense'){
-              $linha['sdef'] = $linha['sdef']+$linha['lv']*1;
+              $_POST['sdef'] = $_POST['sdef']+$_POST['lv']*1;
           
           }if($decreased_stat == 'defense'){
-              $linha['def'] = $linha['def'] - $linha['lv']*1;
+              $_POST['def'] = $_POST['def'] - $_POST['lv']*1;
               
           }
       }
       // calculo da nature sassy/
       if($nature_name == 'sassy'){
           if($increased_stat == 'special-defense'){
-              $linha['sdef'] = $linha['sdef']+$linha['lv']*1;
+              $_POST['sdef'] = $_POST['sdef']+$_POST['lv']*1;
           
           }if($decreased_stat == 'speed'){
-              $linha['speed'] = $linha['speed'] - $linha['lv']*1;
+              $_POST['speed'] = $_POST['speed'] - $_POST['lv']*1;
               
           }
       }
       // calculo da nature careful/
       if($nature_name == 'careful'){
           if($increased_stat == 'special-defense'){
-              $linha['sdef'] = $linha['sdef']+$linha['lv']*1;
+              $_POST['sdef'] = $_POST['sdef']+$_POST['lv']*1;
               
           }if($decreased_stat == 'special-attack'){
-              $linha['satk'] = $linha['satk'] - $linha['lv']*1;
+              $_POST['satk'] = $_POST['satk'] - $_POST['lv']*1;
               
           }
       }
   }
+
+  return 0; // Valor padrão caso a natureza não seja encontrada
 }
 ?>

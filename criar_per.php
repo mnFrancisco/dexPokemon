@@ -48,7 +48,7 @@ include_once("layout/head.php");
                 $altura = $_POST['altura'];
                 $dex = $_POST['dex'];
                 $mt = $_POST['mt'];
-              
+          
                 $sqlM = "INSERT INTO persona (id_per,nomeper,idade,id_trei,regiao,cidade,insig,pt_mundial,mundial,peso,altura)
                 VALUES ($id_per,'$nome','$idade','$id_treiner','$regiao','$cidade','$insig','$mundial','$pt_mundial','$peso','$altura')";
                 $roda_sql=mysqli_query($_SESSION['conexao'],$sqlM);

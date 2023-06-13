@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 11-Jun-2023 às 02:39
+-- Tempo de geração: 13-Jun-2023 às 05:46
 -- Versão do servidor: 10.4.25-MariaDB
 -- versão do PHP: 8.1.10
 
@@ -20,6 +20,22 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `rpg`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `evs`
+--
+
+CREATE TABLE `evs` (
+  `id_poke` int(10) DEFAULT NULL,
+  `ev_hp` int(4) DEFAULT 0,
+  `ev_atk` int(4) DEFAULT 0,
+  `ev_def` int(4) DEFAULT 0,
+  `ev_satk` int(4) DEFAULT 0,
+  `ev_sdef` int(4) DEFAULT 0,
+  `ev_speed` int(4) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -116,12 +132,11 @@ CREATE TABLE `poke` (
   `nome` varchar(30) DEFAULT NULL,
   `tipo` varchar(200) NOT NULL,
   `regiao` varchar(100) NOT NULL DEFAULT 'kanto',
-  `xpshare` tinyint(1) NOT NULL DEFAULT 0,
+  `xp_combate` tinyint(1) NOT NULL DEFAULT 0,
   `crescimento` varchar(200) NOT NULL,
   `t_type` varchar(50) DEFAULT NULL,
   `hab` varchar(20) DEFAULT NULL,
   `nature` varchar(20) DEFAULT NULL,
-  `pt_nat` int(10) NOT NULL,
   `xp` int(10) DEFAULT NULL,
   `lv` int(10) DEFAULT NULL,
   `hp` int(4) DEFAULT NULL,
@@ -131,12 +146,19 @@ CREATE TABLE `poke` (
   `sdef` int(4) DEFAULT NULL,
   `speed` int(4) DEFAULT NULL,
   `desloc` int(10) DEFAULT NULL,
-  `ami` int(4) DEFAULT NULL,
+  `ami` int(4) DEFAULT 0,
   `moves` varchar(500) NOT NULL,
   `tcap` varchar(20) DEFAULT NULL,
   `shyni` varchar(20) NOT NULL DEFAULT 'normal',
   `status` int(10) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `poke`
+--
+
+INSERT INTO `poke` (`id_poke`, `id_per`, `nome`, `tipo`, `regiao`, `xp_combate`, `crescimento`, `t_type`, `hab`, `nature`, `xp`, `lv`, `hp`, `atk`, `satk`, `def`, `sdef`, `speed`, `desloc`, `ami`, `moves`, `tcap`, `shyni`, `status`) VALUES
+(2, 18, 'lucario', 'fighting, steel', 'Unova', 0, '', 'none', 'Protean', 'naughty', 3314, 12, 70, 121, 115, 70, 63, 90, NULL, 0, 'grwol / thander wave / quick atack / tail whip', NULL, 'normal', 0);
 
 -- --------------------------------------------------------
 
@@ -163,6 +185,12 @@ INSERT INTO `tbl_fotos` (`id_foto`, `id_per`, `nome_foto`, `nomemd5_foto`, `tama
 --
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices para tabela `evs`
+--
+ALTER TABLE `evs`
+  ADD KEY `id_poke` (`id_poke`);
 
 --
 -- Índices para tabela `mochila`
@@ -230,7 +258,7 @@ ALTER TABLE `personagem`
 -- AUTO_INCREMENT de tabela `poke`
 --
 ALTER TABLE `poke`
-  MODIFY `id_poke` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_poke` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_fotos`
@@ -241,6 +269,12 @@ ALTER TABLE `tbl_fotos`
 --
 -- Restrições para despejos de tabelas
 --
+
+--
+-- Limitadores para a tabela `evs`
+--
+ALTER TABLE `evs`
+  ADD CONSTRAINT `evs_ibfk_1` FOREIGN KEY (`id_poke`) REFERENCES `poke` (`id_poke`);
 
 --
 -- Limitadores para a tabela `mochila`
