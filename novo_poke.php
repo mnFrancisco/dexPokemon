@@ -262,18 +262,14 @@ if ($conn->connect_error) {
 
         $sqlM = "INSERT INTO poke (id_per, nome, tipo, regiao, hab, nature, xp, lv, hp, atk, satk, def, sdef, speed, ami, moves, shyni, t_type) 
         VALUES ($id, '$nome', '$tipo', '$regiao', '$hab', '$nature', $xp, $lv, $hp, $atk, $satk, $def, $sdef, $speed, $ami, '$moves','$shiny', '$t_type')";
-    
-        if ($conn->query($sqlM) === TRUE) {
+
+        if($conn->query($sqlM) === TRUE) {
             $msg = $nome." Registrado com sucesso!\n";
         } else {
             $msg = "Erro ao cadastrar o Pokémon. Verifique se as informações estão corretas!";
         }
-    
-        echo $msg;
     }
     
-
-
     $conn->close();
 
 }

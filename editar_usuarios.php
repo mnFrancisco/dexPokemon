@@ -1,6 +1,6 @@
 <?php
 include_once("layout/head.php");
-
+$msg='';
 $con=mysqli_connect("localhost","root","","rpg");
 
 if (mysqli_connect_errno()) {
@@ -13,6 +13,8 @@ if (mysqli_connect_errno()) {
     $shyni=' ';
     $id = $_GET['id'];
 
+    insertEvs($id);
+
     $sql= "SELECT * FROM poke p LEFT JOIN evs ev ON ev.id_poke = $id where p.id_poke=$id";
     $r_sql=mysqli_query($con,$sql);
     $linha = mysqli_fetch_array($r_sql,MYSQLI_ASSOC);
@@ -23,28 +25,11 @@ if (mysqli_connect_errno()) {
       $normal= 'checked';
     }
 
-    //tipo de captura
-    /*$tcap_pokebola = '';
-    $tcap_presente = '';
-    $tcap_reconpensa = '';
-    $tcap_ovo = '';
-    $tcap_focil = '';
-    if($linha['tcap'] == 'Pokebola'){
-      $tcap_pokebola = 'selected';
-    }elseif($linha['tcap'] == 'Presente'){
-      $tcap_presente = 'selected';
-    }elseif($linha['tcap'] == 'Recompensa'){
-      $tcap_reconpensa = 'selected';
-    }elseif($linha['tcap'] == 'Ovo'){
-      $tcap_ovo = 'selected';
-    }else{
-      $tcap_focil = 'selected';
-    }*/
 
   }else{ // ENVIA DADOS VIA POST
       $id = $_POST['id']; //OCULTO
       $nome = $_POST['nome'];
-      //$t_type = $_POST['t_type'];
+      $t_type = $_POST['t_type'];
       $hab = $_POST['hab'];
       $nature = $_POST['nature'];
       $lv = $_POST['lv'];
@@ -56,13 +41,11 @@ if (mysqli_connect_errno()) {
       $sdef = $_POST['sdef'];
       $speed = $_POST['speed'];
       $ami = $_POST['ami'];
-      //$desloc = floor($speed/10);
       $moves = $_POST['moves'];
       $shyni = $_POST['shiny'];
-      //$tcap = $_POST['tcap'];
-      $xp_combate=$_POST['xp_combate'];
 
       $sql = "UPDATE poke SET nome='$nome',
+      t_type = '$t_type',
       hab = '$hab',
       nature = '$nature', 
       xp = $xp, 
@@ -74,24 +57,39 @@ if (mysqli_connect_errno()) {
       sdef = $sdef, 
       speed = $speed, 
       ami = $ami, 
-      desloc = $desloc,
       moves = '$moves',
-      shyni = '$shyni',
-      xp_combate=$xp_combate WHERE id_poke = $id";
-
-      $_SESSION['poke_lv'] =$_POST['lv'];
-
-      
+      shyni = '$shyni' WHERE id_poke = $id";
       $result = mysqli_query($con,$sql);
-      if($result){
-        echo 'Dados atualizados com sucesso!';
+
+      if($result){// Update da tabela Evs
+      $ev_hp = $_POST['ev_hp'];
+      $ev_atk = $_POST['ev_atk'];
+      $ev_def = $_POST['ev_def'];
+      $ev_satk = $_POST['ev_satk'];
+      $ev_sdef = $_POST['ev_sdef'];
+      $ev_speed = $_POST['ev_speed'];
+      
+      $sql_ev = "UPDATE evs SET ev_hp=$ev_hp, ev_atk=$ev_atk, ev_def=$ev_def, ev_satk=$ev_satk, ev_sdef=$ev_sdef, ev_speed=$ev_speed WHERE id_poke = $id";
+      $roda_sql = mysqli_query($con,$sql_ev);}
+
+      //Verifica e da o feedack 
+      if($result && $roda_sql){
+        $msg = '<div class="alert alert-info alert-dismissible " role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+        <strong>Sucesso!</strong> Pokemon enviado para o PC !
+        </div>';
       }else{
-        echo 'Erro ao atualizar o registro!';
+        $msg = '<div class="alert alert-warning alert-dismissible " role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+        <strong>Erro !</strong> Não é possivel enviar o pokemo para o PC !!!!.
+        </div>';
       }
       
-      $sql = "SELECT * from poke WHERE id_poke = $id";
-      $result = mysqli_query($con,$sql);
-      $linha = mysqli_fetch_array($result, MYSQLI_ASSOC);
+      $sql = "SELECT * FROM poke p LEFT JOIN evs ev ON ev.id_poke = $id where p.id_poke=$id";
+      $result_2 = mysqli_query($con,$sql);
+      $linha = mysqli_fetch_array($result_2, MYSQLI_ASSOC);
 
       $normal=' ';
       $shyni=' ';
@@ -101,26 +99,7 @@ if (mysqli_connect_errno()) {
       }elseif($linha['shyni']=='normal'){
         $normal= 'checked';
       }
-
-      //CARRO FAV
-      /*$tcap_pokebola = '';
-      $tcap_presente = '';
-      $tcap_reconpensa = '';
-      $tcap_ovo = '';
-      $tcap_focil = '';
-      if($linha['tcap'] == 'Pokebola'){
-        $tcap_pokebola = 'selected';
-      }elseif($linha['tcap'] == 'Presente'){
-        $tcap_presente = 'selected';
-      }elseif($linha['tcap'] == 'Recompensa'){
-        $tcap_reconpensa = 'selected';
-      }elseif($linha['tcap'] == 'Ovo'){
-        $tcap_ovo = 'selected';
-      }else{
-        $tcap_focil = 'selected';
-      }*/
     }
-  
   }
 ?>
 
@@ -138,59 +117,43 @@ if (mysqli_connect_errno()) {
             <div class="row">
               <div class="col-md-12 col-sm-12  ">
                 <div class="x_panel">
-                  
+                  <?php echo $msg; ?>
                   <div class="x_content">
                   <div class="row">
 						<div class="col-md-12 col-sm-12 ">
 							<div class="x_panel">
 								<div class="x_title">
-									<!--<h2>Form Design <small>different form elements</small></h2>
-									<ul class="nav navbar-right panel_toolbox">
-										<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-										</li>
-										<li class="dropdown">
-											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-											<ul class="dropdown-menu" role="menu">
-												<li><a class="dropdown-item" href="#">Settings 1</a>
-												</li>
-												<li><a class="dropdown-item" href="#">Settings 2</a>
-												</li>
-											</ul>
-										</li>
-										<li><a class="close-link"><i class="fa fa-close"></i></a>
-										</li>
-									</ul>
-									<div class="clearfix"></div>
-								</div>-->
+                  
 								<div class="x_content">
 								<br>
                 
 								<form action="editar_usuarios.php" method="post" id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
                   <input type="hidden" name="id" value="<?php echo $id; ?>">
 
-                  <!--Nome-->
-                  <div class="item form-group">
+                    <!--Nome-->
+                    <div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Nome:<span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="first-name" name="nome" value="<?php echo $linha['nome']; ?>" required="required" class="form-control parsley-error" data-parsley-id="5"><ul class="parsley-errors-list filled" id="parsley-id-5"><li class="parsley-required">This value is required.</li></ul>
+												<input type="text" id="first-name" name="nome" value="<?php echo $linha['nome']; ?>" required="required" class="form-control parsley-error" data-parsley-id="5"><ul class="parsley-errors-list filled" id="parsley-id-5"></ul>
 											</div>
-									</div>
+									  </div>
 
-                    <!--<div class="item form-group">
+                    <!--Nome-->
+                  <div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Tera Type:<span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="first-name" name="t_type" value="<?php //echo $linha['t_type']; ?>" required="required" class="form-control parsley-error" data-parsley-id="5"><ul class="parsley-errors-list filled" id="parsley-id-5"><li class="parsley-required">This value is required.</li></ul>
+												<input type="text" id="first-name" name="t_type" value="<?php echo $linha['t_type']; ?>" required="required" class="form-control parsley-error" data-parsley-id="5"><ul class="parsley-errors-list filled" id="parsley-id-5"></ul>
 											</div>
-										</div>-->
+									</div>
 
                     <!--Habilit-->
 										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Habilit: <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="last-name" name="hab" value="<?php echo $linha['hab']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
+												<input type="text" id="last-name" name="hab" value="<?php echo $linha['hab']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"></ul>
 											</div>
 										</div>
 
@@ -199,23 +162,25 @@ if (mysqli_connect_errno()) {
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Nature: <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="last-name" name="nature" value="<?php echo $linha['nature']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
+												<input type="text" id="last-name" name="nature" value="<?php echo $linha['nature']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"></ul>
 											</div>
 										</div>
 
+                    <!--Xp-->
                     <div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Xp: <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="last-name" name="xp" value="<?php echo $linha['xp']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
+												<input type="text" id="last-name" name="xp" value="<?php echo $linha['xp']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"></ul>
 											</div>
 										</div>
 
+                    <!--Lv-->
                     <div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Lv: <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="last-name" name="lv" value="<?php echo $linha['lv']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
+												<input type="text" id="last-name" name="lv" value="<?php echo $linha['lv']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"></ul>
 											</div>
 										</div>
 
@@ -224,14 +189,14 @@ if (mysqli_connect_errno()) {
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Hp: <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="number" id="last-name" name="hp" value="<?php echo $linha['hp']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
+												<input type="number" id="last-name" name="hp" value="<?php echo $linha['hp']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"></ul>
 											</div>
 
                       <!--Evs do HP-->
                       <label class="col-form-label col-md-1 col-sm-1 label-align" for="last-name">Ev: <span class="required">*</span>
 											</label>
                       <div class="col-md-1 col-sm-1 ">
-												<input type="number" id="last-name" name="hp" value="<?php echo $linha['ev_hp']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7">
+												<input type="number" id="last-name" name="ev_hp" value="<?php echo $linha['ev_hp']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7">
 											</div>
 										</div>
 
@@ -240,14 +205,14 @@ if (mysqli_connect_errno()) {
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Atk: <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="number" id="last-name" name="atk" value="<?php echo $linha['atk']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
+												<input type="number" id="last-name" name="atk" value="<?php echo $linha['atk']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"></ul>
 											</div>
                       
                       <!--Evs do atk-->
                       <label class="col-form-label col-md-1 col-sm-1 label-align" for="last-name">Ev: <span class="required">*</span>
 											</label>
                       <div class="col-md-1 col-sm- ">
-												<input type="number" id="last-name" name="atk" value="<?php echo $linha['ev_atk']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"></ul>
+												<input type="number" id="last-name" name="ev_atk" value="<?php echo $linha['ev_atk']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"></ul>
 											</div>
 										</div>
 
@@ -256,14 +221,14 @@ if (mysqli_connect_errno()) {
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Sp.atk: <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="number" id="last-name" name="satk" value="<?php echo $linha['satk']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
+												<input type="number" id="last-name" name="satk" value="<?php echo $linha['satk']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"></ul>
 											</div>
 
                       <!--Evs do sp.atk-->
                       <label class="col-form-label col-md-1 col-sm-1 label-align" for="last-name">Ev: <span class="required">*</span>
 											</label>
                       <div class="col-md-1 col-sm-1 ">
-												<input type="number" id="last-name" name="hp" value="<?php echo $linha['ev_satk']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7">
+												<input type="number" id="last-name" name="ev_satk" value="<?php echo $linha['ev_satk']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7">
 											</div>
 										</div>
 
@@ -272,17 +237,15 @@ if (mysqli_connect_errno()) {
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Def: <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="number" id="last-name" name="def" value="<?php echo $linha['def']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
+												<input type="number" id="last-name" name="def" value="<?php echo $linha['def']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"></ul>
 											</div>
 
-                      <!--Evs da Def-->
+                      <!--Evs do def-->
                       <label class="col-form-label col-md-1 col-sm-1 label-align" for="last-name">Ev: <span class="required">*</span>
 											</label>
-                        <div class="col-md-1 col-sm-1 ">
-                          <input type="number" id="last-name" name="hp" value="<?php echo $linha['ev_def']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7">
-                        </div>
-										  </div>
-
+                      <div class="col-md-1 col-sm-1 ">
+												<input type="number" id="last-name" name="ev_def" value="<?php echo $linha['ev_def']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7">
+											</div>
 										</div>
 
                     <!--Sp.Def-->
@@ -290,16 +253,15 @@ if (mysqli_connect_errno()) {
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Sp.def: <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="number" id="last-name" name="sdef" value="<?php echo $linha['sdef']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
+												<input type="number" id="last-name" name="sdef" value="<?php echo $linha['sdef']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"></ul>
 											</div>
 
-                      <!--Evs da Sp.def-->
+                      <!--Evs do sp.def-->
                       <label class="col-form-label col-md-1 col-sm-1 label-align" for="last-name">Ev: <span class="required">*</span>
 											</label>
-                        <div class="col-md-1 col-sm-1 ">
-                          <input type="number" id="last-name" name="hp" value="<?php echo $linha['ev_def']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7">
-                        </div>
-										  </div>
+                      <div class="col-md-1 col-sm-1 ">
+												<input type="number" id="last-name" name="ev_sdef" value="<?php echo $linha['ev_sdef']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7">
+											</div>
 										</div>
 
                     <!--Speed-->
@@ -307,58 +269,39 @@ if (mysqli_connect_errno()) {
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Speed: <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="number" id="last-name" name="speed" value="<?php echo $linha['speed']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
+												<input type="number" id="last-name" name="speed" value="<?php echo $linha['speed']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"></ul>
 											</div>
 
                       <!--Evs da Speed-->
                       <label class="col-form-label col-md-1 col-sm-1 label-align" for="last-name">Ev: <span class="required">*</span>
 											</label>
-                        <div class="col-md-1 col-sm-1 ">
-                          <input type="number" id="last-name" name="hp" value="<?php echo $linha['ev_speed']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7">
-                        </div>
-										  </div>
+                      <div class="col-md-1 col-sm-1 ">
+												<input type="number" id="last-name" name="ev_speed" value="<?php echo $linha['ev_speed']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7">
+											</div>
+
 										</div>
 
-                    <!--<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Deslocamento: <span class="required">*</span>
-											</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input type="number" id="last-name" name="desloc" value="<?php //echo $linha['desloc']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
-											</div>
-										</div>-->
-
+                    <!--Amizade-->
                     <div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Amizade: <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="number" id="last-name" name="ami" value="<?php echo $linha['ami']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
+												<input type="number" id="last-name" name="ami" value="<?php echo $linha['ami']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"></ul>
 											</div>
 										</div>
 
+                    <!--Muvs-->
                     <div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">moves: <span class="required">*</span>
+											<label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Muvs: <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="last-name" name="moves" value="<?php echo $linha['moves']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"><li class="parsley-required">This value is required.</li></ul>
+												<input type="text" id="last-name" name="moves" value="<?php echo $linha['moves']; ?>" required="required" class="form-control parsley-error" data-parsley-id="7"><ul class="parsley-errors-list filled" id="parsley-id-7"></ul>
 											</div>
 										</div>
 
-                    <!--<div class="item form-group">
-                      <label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Tipo de captura<span class="required">*</span>
-                      </label>
-                      <div class="col-md-6 col-sm-6 ">
-                          <select class="select2_group form-control" name="tcap">
-                              <option value="Pokebola" <?php //echo $tcap_pokebola;?>>Pokebola</option>
-                              <option value="Recompensa" <?php //echo $tcap_reconpensa;?>>Recompensa</option>
-                              <option value="Presente" <?php //echo $tcap_presente;?>>Presente</option>
-                              <option value="Ovo" <?php //echo $tcap_ovo;?>>Ovo</option>
-                              <option value="Focil" <?php //echo $tcap_focil;?>>Focil</option>
-                          </select>
-                      </div>
-                    </div>-->
-                    
+                    <!--Shiny-->
                     <div class="item form-group">
-                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">shiny<span class="required">*</span>
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Shiny<span class="required">*</span>
                         </label>
                         <div class="col-md-2 col-sm-2">
                             <input type="radio" name="shiny" id="last-name"  class="form-control" value="shiny" <?php echo $shyni; ?>>
@@ -373,9 +316,6 @@ if (mysqli_connect_errno()) {
 
 										<div class="item form-group">
 											<div class="col-md-6 col-sm-6 offset-md-3">
-												<!--<button class="btn btn-primary" type="button">Cancel</button>
-												<button class="btn btn-primary" type="reset">Reset</button>
-												<button type="submit" class="btn btn-success">Submit</button>-->
                         <input type="submit" value="Atualizar" class="btn btn-success">
 											</div>
                       

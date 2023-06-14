@@ -1,4 +1,5 @@
 <?php
+
 //manda o pokemon do time para o pc 
 function mandaProPc(){
   if(isset($_GET['del']) == 'user'){
@@ -208,93 +209,6 @@ function encerrarSesao(){
 
   }
 }
-//almentar  e diminuir estatus
-function contaSatus(){
-  // status hp mais
-  if(isset($_GET['hp_mais']) == 'hp_mais'){
-    $sql="SELECT hp From persona WHERE id_persona = ".$_GET['hp_mais'];
-    $resp_sql = mysqli_query($_SESSION['conexao'],$sql);
-    $linha=mysqli_fetch_array($resp_sql,MYSQLI_ASSOC);
-
-    if($resp_sql){
-      $menus = $linha['hp'] + 1;
-      
-      $menos_sql="UPDATE persona SET hp = $menus WHERE id_persona = ".$_GET['hp_mais'];
-      $resposta = mysqli_query($_SESSION['conexao'],$menos_sql);
-
-    }
-  }
-  // status hp menos
-  if(isset($_GET['hp_menos']) == 'hp_menos'){
-    $sql="SELECT hp From persona WHERE id_persona = ".$_GET['hp_menos'];
-    $resp_sql = mysqli_query($_SESSION['conexao'],$sql);
-    $linha=mysqli_fetch_array($resp_sql,MYSQLI_ASSOC);
-
-    if($resp_sql){
-      $menus = $linha['hp'] - 1;
-      
-      $menos_sql="UPDATE persona SET hp = $menus WHERE id_persona = ".$_GET['hp_menos'];
-      $resposta = mysqli_query($_SESSION['conexao'],$menos_sql);
-      
-    }
-  }
-  // status estamina mais
-  if(isset($_GET['stamina_mais']) == 'stamina_mais'){
-    $sql="SELECT stamina From persona WHERE id_persona = ".$_GET['stamina_mais'];
-    $resp_sql = mysqli_query($_SESSION['conexao'],$sql);
-    $linha=mysqli_fetch_array($resp_sql,MYSQLI_ASSOC);
-
-    if($resp_sql){
-      $menus = $linha['stamina'] + 1;
-      
-      $menos_sql="UPDATE persona SET stamina = $menus WHERE id_persona = ".$_GET['stamina_mais'];
-      $resposta = mysqli_query($_SESSION['conexao'],$menos_sql);
-
-    }
-  }
-  // status estamina menos
-  if(isset($_GET['stamina_menos']) == 'stamina_menos'){
-    $sql="SELECT stamina From persona WHERE id_persona = ".$_GET['stamina_menos'];
-    $resp_sql = mysqli_query($_SESSION['conexao'],$sql);
-    $linha=mysqli_fetch_array($resp_sql,MYSQLI_ASSOC);
-
-    if($resp_sql){
-      $menus = $linha['stamina'] - 1;
-      
-      $menos_sql="UPDATE persona SET stamina = $menus WHERE id_persona = ".$_GET['stamina_menos'];
-      $resposta = mysqli_query($_SESSION['conexao'],$menos_sql);
-      
-    }
-  }
-  // status deslocamento mais
-  if(isset($_GET['desloc_mais']) == 'desloc_mais'){
-    $sql="SELECT determinacao From persona WHERE id_persona = ".$_GET['desloc_mais'];
-    $resp_sql = mysqli_query($_SESSION['conexao'],$sql);
-    $linha=mysqli_fetch_array($resp_sql,MYSQLI_ASSOC);
-
-    if($resp_sql){
-      $menus = $linha['determinacao'] + 1;
-      
-      $menos_sql="UPDATE persona SET determinacao = $menus WHERE id_persona = ".$_GET['desloc_mais'];
-      $resposta = mysqli_query($_SESSION['conexao'],$menos_sql);
-
-    }
-  }
-  // status deslocamento menos
-  if(isset($_GET['desloc_menos']) == 'desloc_menos'){
-    $sql="SELECT determinacao From persona WHERE id_persona = ".$_GET['desloc_menos'];
-    $resp_sql = mysqli_query($_SESSION['conexao'],$sql);
-    $linha=mysqli_fetch_array($resp_sql,MYSQLI_ASSOC);
-
-    if($resp_sql){
-        $menus = $linha['determinacao'] - 1;
-      
-        $menos_sql="UPDATE persona SET determinacao = $menus WHERE id_persona = ".$_GET['desloc_menos'];
-        $resposta = mysqli_query($_SESSION['conexao'],$menos_sql);
-
-      } 
-    }
-}
 
 //busca metodo de treinamento
 function mt(){
@@ -326,222 +240,58 @@ function log_erro_ALL(){
   ini_set('error_log','error.log');//cria arquivo de log de erro
 }
 
-function calcularModificadores($natureUrl) {
-  $natureData = json_decode(file_get_contents($natureUrl), true);
+//Insert na tabela evs 
+function insertEvs($id){
 
-  $modificadores = array();
-  if (isset($natureData['decreased_stat'])) {
-      foreach ($natureData['decreased_stat'] as $stat) {
-          $modificadores[$stat['stat']['name']] = -0.1;
-      }
-  }
-  if (isset($natureData['increased_stat'])) {
-      foreach ($natureData['increased_stat'] as $stat) {
-          $modificadores[$stat['stat']['name']] = 0.1;
-      }
-  }
+  $sql_select = "SELECT id_poke FROM evs";
+  $roda = mysqli_query($_SESSION['conexao'], $sql_select);
+  $linha = mysqli_fetch_array($roda, MYSQLI_ASSOC);
 
-  return $modificadores;
-}
+  $id = mysqli_real_escape_string($_SESSION['conexao'], $id);
 
-
-
-
-function natureCalculo() {
-  if ($_POST['nature'] == 'serious') {
-      return $_POST['speed'] + $_POST['lv'] * 1;
-  }
-  if ($_POST['nature'] == 'bashful') {
-      return $_POST['satk'] + $_POST['lv'] * 1;
-  }
-  if ($_POST['nature'] == 'docile') {
-      return $_POST['def'] + $_POST['def'] *0.1;
-  }
-  if ($_POST['nature'] == 'hardy') {
-      return $_POST['atk'] + $_POST['lv'] * 1;
-  }
-  if ($_POST['nature'] == 'quirky') {
-      return $_POST['sdef'] + $_POST['lv'] * 1;
-  }else{
-      // pega os dados da nature
-      $api_link = "https://pokeapi.co/api/v2/nature/".strtolower($_POST['nature']);
-      $response = file_get_contents($api_link);
-      $dados_nature = json_decode($response, true);
-
-      $nature_name= $dados_nature['name'];
-      $increased_stat = $dados_nature["increased_stat"]["name"];
-      $decreased_stat = $dados_nature["decreased_stat"]["name"];
-
-      // calculo da nature Naughty/safadinho
-      if($nature_name == 'naughty'){
-          if($increased_stat == 'attack'){
-          $_POST['atk'] = $_POST['atk']+$_POST['lv']*1;
-          }if($decreased_stat == 'special-defense'){
-          $_POST['sdef'] = $_POST['sdef'] - $_POST['lv']*1;
-          }
-      }
-      // calculo da nature lonely/solitario
-      if($nature_name == 'lonely'){
-          if($increased_stat == 'attack'){
-              $_POST['atk'] = $_POST['atk']+$_POST['lv']*1;
-          }if($decreased_stat == 'defense'){
-              $_POST['def'] = $_POST['def'] - $_POST['lv']*1;
-          }
-      }
-      // calculo da nature brave/valente
-      if($nature_name == 'brave'){
-          if($increased_stat == 'attack'){
-              $_POST['atk'] = $_POST['atk']+$_POST['lv']*1;
-          }if($decreased_stat == 'speed'){
-              $_POST['speed'] = $_POST['speed'] - $_POST['lv']*1;
-          }
-      }
-      // calculo da nature adamant
-      if($nature_name == 'adamant'){
-          if($increased_stat == 'attack'){
-              $_POST['atk'] = $_POST['atk']+$_POST['lv']*1;
-          }if($decreased_stat == 'special-attack'){
-              $_POST['satk'] = $_POST['satk'] - $_POST['lv']*1;
-          }
-      }
-      // calculo da nature bold
-      if($nature_name == 'bold'){
-          if($increased_stat == 'defense'){
-              $_POST['def'] = $_POST['def']+$_POST['lv']*1;
-          }if($decreased_stat == 'attack'){
-              $_POST['atk'] = $_POST['atk'] - $_POST['lv']*1;
-          }
-      }
-      // calculo da nature relaxed/relaxado
-      if($nature_name == 'relaxed'){
-          if($increased_stat == 'defense'){
-              $_POST['def'] = $_POST['def']+$_POST['lv']*1;
-          }if($decreased_stat == 'speed'){
-              $_POST['speed'] = $_POST['speed'] - $_POST['lv']*1;
-          }
-      }
-      // calculo da nature impish
-      if($nature_name == 'impish'){
-          if($increased_stat == 'defense'){
-              $_POST['def'] = $_POST['def']+$_POST['lv']*1;
-          }if($decreased_stat == 'special-attack'){
-              $_POST['satk'] = $_POST['satk'] - $_POST['lv']*1;
-          }
-      }
-      // calculo da nature lax
-      if($nature_name == 'lax'){
-          if($increased_stat == 'defense'){
-              $_POST['def'] = $_POST['def']+$_POST['lv']*1;
-          }if($decreased_stat == 'special-defense'){
-              $_POST['satk'] = $_POST['satk'] - $_POST['lv']*1;
-          }
-      }
-      // calculo da nature timid/timido
-      if($nature_name == 'timid'){
-          if($increased_stat == 'speed'){
-              $_POST['speed'] = $_POST['speed']+$_POST['lv']*1;
-          }if($decreased_stat == 'attack'){
-              $_POST['atk'] = $_POST['atk'] - $_POST['lv']*1;
-          }
-      }
-      // calculo da nature hasty/apresado
-      if($nature_name == 'hasty'){
-          if($increased_stat == 'speed'){
-              $_POST['speed'] = $_POST['speed']+$_POST['lv']*1;
-          }if($decreased_stat == 'defense'){
-              $_POST['def'] = $_POST['def'] - $_POST['lv']*1;
-          }
-      }
-      // calculo da nature jolly/
-      if($nature_name == 'jolly'){
-          if($increased_stat == 'speed'){
-              $_POST['speed'] = $_POST['speed']+$_POST['lv']*1;
-          }if($decreased_stat == 'special-attack'){
-              $_POST['satk'] = $_POST['satk'] - $_POST['lv']*1;
-          }
-      }
-      // calculo da nature naive/
-      if($nature_name == 'naive'){
-          if($increased_stat == 'speed'){
-              $_POST['speed'] = $_POST['speed']+$_POST['lv']*1;
-          }if($decreased_stat == 'special-defense'){
-              $_POST['sdef'] = $_POST['sdef'] - $_POST['lv']*1;
-          }
-      }
-      // calculo da nature modest/modesto
-      if($nature_name == 'modest'){
-          if($increased_stat == 'special-attack'){
-              $_POST['satk'] = $_POST['satk']+$_POST['lv']*1;
-          }if($decreased_stat == 'attack'){
-              $_POST['atk'] = $_POST['atk'] - $_POST['lv']*1;
-          }
-      }
-      // calculo da nature mild/
-      if($nature_name == 'mild'){
-          if($increased_stat == 'special-attack'){
-              $_POST['satk'] = $_POST['satk']+$_POST['lv']*1;
-          }if($decreased_stat == 'defense'){
-              $_POST['def'] = $_POST['def'] - $_POST['lv']*1;
-          }
-      }
-      // calculo da nature quiet/
-      if($nature_name == 'quiet'){
-          if($increased_stat == 'special-attack'){
-              $_POST['satk'] = $_POST['satk']+$_POST['lv']*1;
-          }if($decreased_stat == 'speed'){
-              $_POST['speed'] = $_POST['speed'] - $_POST['lv']*1;
-          }
-      }
-      // calculo da nature rash/
-      if($nature_name == 'rash'){
-          if($increased_stat == 'special-attack'){
-              $_POST['satk'] = $_POST['satk']+$_POST['lv']*1;
-          }if($decreased_stat == 'special-defense'){
-              $_POST['sdef'] = $_POST['sdef'] - $_POST['lv']*1;
-          }
-      }
-      // calculo da nature calm/
-      if($nature_name == 'calm'){
-          if($increased_stat == 'special-defense'){
-              $_POST['sdef'] = $_POST['sdef']+$_POST['lv']*1;
-              
-          }if($decreased_stat == 'attack'){
-              $_POST['atk'] = $_POST['atk'] - $_POST['lv']*1;
-              
-          }
-      }
-      // calculo da nature gentle/
-      if($nature_name == 'gentle'){
-          if($increased_stat == 'special-defense'){
-              $_POST['sdef'] = $_POST['sdef']+$_POST['lv']*1;
-          
-          }if($decreased_stat == 'defense'){
-              $_POST['def'] = $_POST['def'] - $_POST['lv']*1;
-              
-          }
-      }
-      // calculo da nature sassy/
-      if($nature_name == 'sassy'){
-          if($increased_stat == 'special-defense'){
-              $_POST['sdef'] = $_POST['sdef']+$_POST['lv']*1;
-          
-          }if($decreased_stat == 'speed'){
-              $_POST['speed'] = $_POST['speed'] - $_POST['lv']*1;
-              
-          }
-      }
-      // calculo da nature careful/
-      if($nature_name == 'careful'){
-          if($increased_stat == 'special-defense'){
-              $_POST['sdef'] = $_POST['sdef']+$_POST['lv']*1;
-              
-          }if($decreased_stat == 'special-attack'){
-              $_POST['satk'] = $_POST['satk'] - $_POST['lv']*1;
-              
-          }
-      }
+  if ($linha['id_poke'] == $id) {
+    // Código quando o id já existe
+  } else {
+    $sql_insert = "INSERT INTO evs (id_poke) VALUES ($id)";
+    $roda_sql = mysqli_query($_SESSION['conexao'], $sql_insert);
   }
 
-  return 0; // Valor padrão caso a natureza não seja encontrada
-}
+
+};
+
+//tipo de captura
+/*$tcap_pokebola = '';
+$tcap_presente = '';
+$tcap_reconpensa = '';
+$tcap_ovo = '';
+$tcap_focil = '';
+if($linha['tcap'] == 'Pokebola'){
+  $tcap_pokebola = 'selected';
+}elseif($linha['tcap'] == 'Presente'){
+  $tcap_presente = 'selected';
+}elseif($linha['tcap'] == 'Recompensa'){
+  $tcap_reconpensa = 'selected';
+}elseif($linha['tcap'] == 'Ovo'){
+  $tcap_ovo = 'selected';
+}else{
+  $tcap_focil = 'selected';
+}*/
+
+//CARRO FAV
+      /*$tcap_pokebola = '';
+      $tcap_presente = '';
+      $tcap_reconpensa = '';
+      $tcap_ovo = '';
+      $tcap_focil = '';
+      if($linha['tcap'] == 'Pokebola'){
+        $tcap_pokebola = 'selected';
+      }elseif($linha['tcap'] == 'Presente'){
+        $tcap_presente = 'selected';
+      }elseif($linha['tcap'] == 'Recompensa'){
+        $tcap_reconpensa = 'selected';
+      }elseif($linha['tcap'] == 'Ovo'){
+        $tcap_ovo = 'selected';
+      }else{
+        $tcap_focil = 'selected';
+      }*/
 ?>

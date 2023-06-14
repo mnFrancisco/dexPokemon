@@ -15,8 +15,6 @@ $id_per = $_SESSION['id'];
             <div class="clearfix"></div>
             <?php
             mandaProPc();
-            
-            
             ?>
             <div class="row">
               <div class="col-md-12 col-sm-12  ">
@@ -66,7 +64,7 @@ $id_per = $_SESSION['id'];
                               <?php
                               $id=0;
                               xpshere();
-                              $sql = "SELECT * from poke WHERE status = 1 and id_per=$id_per ORDER BY poke.ami DESC";
+                              $sql = "SELECT * FROM poke p LEFT JOIN evs ev ON ev.id_poke= p.id_poke where p.status=1 and p.id_per=$id_per ORDER BY p.ami DESC";
                               $result = mysqli_query($_SESSION['conexao'],$sql);
 
                               while($linha = mysqli_fetch_array($result, MYSQLI_ASSOC)){
@@ -99,12 +97,12 @@ $id_per = $_SESSION['id'];
                                       <strong>Habilit:</strong> '.$linha['hab'].' <br/> 
                                       <strong>Nature:</strong> '.$linha['nature'].'
                                       <ul class="pokestatus">
-                                          <li>Hp: '.$linha['hp'].'</li>
-                                          <li>Atk: '.$linha['atk'].' </li>
-                                          <li>Def: '.$linha['def'].'</li>
-                                          <li>Esp.Atk: '.$linha['satk'].'</li>
-                                          <li>Esp.Def: '.$linha['sdef'].'</li>
-                                          <li>Speed: '.$linha['speed'].'</li>
+                                          <li>Hp: '.$linha['hp'] + $linha['ev_hp'] .'</li>
+                                          <li>Atk: '.$linha['atk'] + $linha['ev_atk'].' </li>
+                                          <li>Def: '.$linha['def'] + $linha['ev_def'].'</li>
+                                          <li>Esp.Atk: '.$linha['satk'] + $linha['ev_satk'].'</li>
+                                          <li>Esp.Def: '.$linha['sdef'] + $linha['ev_sdef'] * 0.1.'</li>
+                                          <li>Speed: '.$linha['speed'] + $linha['ev_speed'].'</li>
                                           
                                           <li>Amizade: '.$linha['ami'].'</li>
                                       </ul>

@@ -1,1 +1,6 @@
-[13-Jun-2023 05:26:35 Europe/Berlin] PHP Warning:  Undefined array key "ev_spatk" in C:\xampp\htdocs\dexPokemon\editar_usuarios.php on line 266
+[14-Jun-2023 01:04:11 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'ev.column_name' in 'on clause' in C:\xampp\htdocs\dexPokemon\listar_time.php:79
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\listar_time.php(79): mysqli_query(Object(mysqli), 'SELECT p.*, ev....')
+#1 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\listar_time.php on line 79
+[14-Jun-2023 01:43:19 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\dexPokemon\helpers\funcao.php on line 252
