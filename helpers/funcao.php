@@ -211,9 +211,25 @@ function encerrarSesao(){
 }
 
 //busca metodo de treinamento
-function mt(){
-  $id=$_SESSION['id'];
-  $sql = "SELECT * from personagem WHERE id= $id";
+function mt($linha){
+    $id = $_SESSION['id'];
+    $sql = "SELECT * FROM persona where id_per=$id";
+    $result = mysqli_query($_SESSION['conexao'],$sql);
+    $persona = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+  //Encorajador
+  if($persona['mtrei'] == 'Emcorajador' && $linha['nome'] == 'lucario'){
+    $linha['hp'] = $linha['hp'] + $linha['lv'] * 2;
+    return $linha['hp'];
+  }elseif($persona['mtrei'] != 'Emcorajador'){
+    return $linha['hp'];
+  }
+  else{
+    $linha['hp'] = $linha['hp'] + $linha['lv'] * $persona['nv_treinador'];
+    return $linha['hp'];
+  }
+
+  
 }
 function tamanhaString($sobre){
     

@@ -12,3 +12,166 @@ Stack trace:
 #2 C:\xampp\htdocs\dexPokemon\listar_time.php(2): include_once('C:\\xampp\\htdocs...')
 #3 {main}
   thrown in C:\xampp\htdocs\dexPokemon\helpers\funcao.php on line 188
+[17-Jun-2023 20:19:13 Europe/Berlin] PHP Warning:  Undefined array key "mtrei" in C:\xampp\htdocs\dexPokemon\helpers\funcao.php on line 217
+[17-Jun-2023 20:22:06 Europe/Berlin] PHP Warning:  Undefined array key "nv_trinador" in C:\xampp\htdocs\dexPokemon\helpers\funcao.php on line 221
+[17-Jun-2023 20:22:22 Europe/Berlin] PHP Warning:  Undefined array key "nv_trinador" in C:\xampp\htdocs\dexPokemon\helpers\funcao.php on line 221
+[17-Jun-2023 20:22:25 Europe/Berlin] PHP Warning:  Undefined array key "nv_trinador" in C:\xampp\htdocs\dexPokemon\helpers\funcao.php on line 221
+[17-Jun-2023 20:22:36 Europe/Berlin] PHP Warning:  Undefined array key "nv_treinador" in C:\xampp\htdocs\dexPokemon\helpers\funcao.php on line 221
+[17-Jun-2023 20:59:39 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Column count doesn't match value count at row 1 in C:\xampp\htdocs\dexPokemon\helpers\funcao.php:272
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\helpers\funcao.php(272): mysqli_query(Object(mysqli), 'INSERT INTO evs...')
+#1 C:\xampp\htdocs\dexPokemon\editar_usuarios.php(16): insertEvs('')
+#2 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\helpers\funcao.php on line 272
+[17-Jun-2023 21:01:15 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 in C:\xampp\htdocs\dexPokemon\helpers\funcao.php:7
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\helpers\funcao.php(7): mysqli_query(Object(mysqli), 'UPDATE poke SET...')
+#1 C:\xampp\htdocs\dexPokemon\listar_time.php(17): mandaProPc()
+#2 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\helpers\funcao.php on line 7
+[17-Jun-2023 21:04:14 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Column count doesn't match value count at row 1 in C:\xampp\htdocs\dexPokemon\helpers\funcao.php:272
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\helpers\funcao.php(272): mysqli_query(Object(mysqli), 'INSERT INTO evs...')
+#1 C:\xampp\htdocs\dexPokemon\editar_usuarios.php(16): insertEvs('')
+#2 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\helpers\funcao.php on line 272
+[17-Jun-2023 21:05:50 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Column count doesn't match value count at row 1 in C:\xampp\htdocs\dexPokemon\helpers\funcao.php:272
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\helpers\funcao.php(272): mysqli_query(Object(mysqli), 'INSERT INTO evs...')
+#1 C:\xampp\htdocs\dexPokemon\editar_usuarios.php(16): insertEvs('')
+#2 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\helpers\funcao.php on line 272
+[17-Jun-2023 21:15:16 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 in C:\xampp\htdocs\dexPokemon\helpers\funcao.php:7
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\helpers\funcao.php(7): mysqli_query(Object(mysqli), 'UPDATE poke SET...')
+#1 C:\xampp\htdocs\dexPokemon\listar_time.php(17): mandaProPc()
+#2 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\helpers\funcao.php on line 7
+[17-Jun-2023 21:20:26 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '=1 and p.id_per=18' at line 1 in C:\xampp\htdocs\dexPokemon\listar_time.php:69
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\listar_time.php(69): mysqli_query(Object(mysqli), 'SELECT * FROM p...')
+#1 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\listar_time.php on line 69
+[17-Jun-2023 21:20:52 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'p.id_per' in 'where clause' in C:\xampp\htdocs\dexPokemon\listar_time.php:69
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\listar_time.php(69): mysqli_query(Object(mysqli), 'SELECT * FROM p...')
+#1 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\listar_time.php on line 69
+[17-Jun-2023 21:20:53 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'p.id_per' in 'where clause' in C:\xampp\htdocs\dexPokemon\listar_time.php:69
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\listar_time.php(69): mysqli_query(Object(mysqli), 'SELECT * FROM p...')
+#1 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\listar_time.php on line 69
+[17-Jun-2023 21:20:53 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'p.id_per' in 'where clause' in C:\xampp\htdocs\dexPokemon\listar_time.php:69
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\listar_time.php(69): mysqli_query(Object(mysqli), 'SELECT * FROM p...')
+#1 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\listar_time.php on line 69
+[17-Jun-2023 21:20:53 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'p.id_per' in 'where clause' in C:\xampp\htdocs\dexPokemon\listar_time.php:69
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\listar_time.php(69): mysqli_query(Object(mysqli), 'SELECT * FROM p...')
+#1 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\listar_time.php on line 69
+[17-Jun-2023 21:20:54 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'p.id_per' in 'where clause' in C:\xampp\htdocs\dexPokemon\listar_time.php:69
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\listar_time.php(69): mysqli_query(Object(mysqli), 'SELECT * FROM p...')
+#1 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\listar_time.php on line 69
+[17-Jun-2023 21:20:54 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'p.id_per' in 'where clause' in C:\xampp\htdocs\dexPokemon\listar_time.php:69
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\listar_time.php(69): mysqli_query(Object(mysqli), 'SELECT * FROM p...')
+#1 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\listar_time.php on line 69
+[17-Jun-2023 21:20:54 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'p.id_per' in 'where clause' in C:\xampp\htdocs\dexPokemon\listar_time.php:69
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\listar_time.php(69): mysqli_query(Object(mysqli), 'SELECT * FROM p...')
+#1 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\listar_time.php on line 69
+[17-Jun-2023 21:20:55 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'p.id_per' in 'where clause' in C:\xampp\htdocs\dexPokemon\listar_time.php:69
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\listar_time.php(69): mysqli_query(Object(mysqli), 'SELECT * FROM p...')
+#1 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\listar_time.php on line 69
+[17-Jun-2023 21:20:55 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'p.id_per' in 'where clause' in C:\xampp\htdocs\dexPokemon\listar_time.php:69
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\listar_time.php(69): mysqli_query(Object(mysqli), 'SELECT * FROM p...')
+#1 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\listar_time.php on line 69
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_hp" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 103
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_atk" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 104
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_def" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 105
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_satk" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 106
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_sdef" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 107
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_speed" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 108
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_hp" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 103
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_atk" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 104
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_def" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 105
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_satk" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 106
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_sdef" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 107
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_speed" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 108
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_hp" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 103
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_atk" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 104
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_def" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 105
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_satk" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 106
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_sdef" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 107
+[17-Jun-2023 21:21:04 Europe/Berlin] PHP Warning:  Undefined array key "ev_speed" in C:\xampp\htdocs\dexPokemon\listar_time.php on line 108
+[17-Jun-2023 21:22:00 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Column count doesn't match value count at row 1 in C:\xampp\htdocs\dexPokemon\helpers\funcao.php:272
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\helpers\funcao.php(272): mysqli_query(Object(mysqli), 'INSERT INTO evs...')
+#1 C:\xampp\htdocs\dexPokemon\editar_usuarios.php(16): insertEvs('')
+#2 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\helpers\funcao.php on line 272
+[17-Jun-2023 21:50:47 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function contaSatus() in C:\xampp\htdocs\dexPokemon\perfil.php:5
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\perfil.php on line 5
+[17-Jun-2023 21:53:10 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function fichaClas() in C:\xampp\htdocs\dexPokemon\editar_per.php:8
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\editar_per.php on line 8
+[17-Jun-2023 21:53:32 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 121
+[17-Jun-2023 21:53:32 Europe/Berlin] PHP Warning:  Undefined array key "pd" in C:\xampp\htdocs\dexPokemon\editar_per.php on line 197
+[17-Jun-2023 21:53:32 Europe/Berlin] PHP Warning:  Undefined array key "contatos" in C:\xampp\htdocs\dexPokemon\editar_per.php on line 205
+[17-Jun-2023 21:53:32 Europe/Berlin] PHP Warning:  Undefined variable $fichaClas in C:\xampp\htdocs\dexPokemon\editar_per.php on line 219
+[17-Jun-2023 21:53:32 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\dexPokemon\editar_per.php on line 219
+[17-Jun-2023 21:53:32 Europe/Berlin] PHP Warning:  Undefined variable $fichaClas in C:\xampp\htdocs\dexPokemon\editar_per.php on line 226
+[17-Jun-2023 21:53:32 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\dexPokemon\editar_per.php on line 226
+[17-Jun-2023 21:53:32 Europe/Berlin] PHP Warning:  Undefined variable $fichaClas in C:\xampp\htdocs\dexPokemon\editar_per.php on line 233
+[17-Jun-2023 21:53:32 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\dexPokemon\editar_per.php on line 233
+[17-Jun-2023 21:53:32 Europe/Berlin] PHP Warning:  Undefined variable $fichaClas in C:\xampp\htdocs\dexPokemon\editar_per.php on line 240
+[17-Jun-2023 21:53:32 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\dexPokemon\editar_per.php on line 240
+[17-Jun-2023 21:53:32 Europe/Berlin] PHP Warning:  Undefined variable $fichaClas in C:\xampp\htdocs\dexPokemon\editar_per.php on line 247
+[17-Jun-2023 21:53:32 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\dexPokemon\editar_per.php on line 247
+[17-Jun-2023 21:53:32 Europe/Berlin] PHP Warning:  Undefined variable $fichaClas in C:\xampp\htdocs\dexPokemon\editar_per.php on line 254
+[17-Jun-2023 21:53:32 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\dexPokemon\editar_per.php on line 254
+[17-Jun-2023 21:54:30 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 121
+[17-Jun-2023 21:54:30 Europe/Berlin] PHP Warning:  Undefined array key "contatos" in C:\xampp\htdocs\dexPokemon\editar_per.php on line 198
+[17-Jun-2023 21:55:11 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 121
+[17-Jun-2023 21:55:21 Europe/Berlin] PHP Warning:  Undefined array key "pd" in C:\xampp\htdocs\dexPokemon\editar_per.php on line 43
+[17-Jun-2023 21:55:21 Europe/Berlin] PHP Warning:  Undefined array key "contatos" in C:\xampp\htdocs\dexPokemon\editar_per.php on line 44
+[17-Jun-2023 21:55:21 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'pd' in 'field list' in C:\xampp\htdocs\dexPokemon\editar_per.php:56
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\editar_per.php(56): mysqli_query(Object(mysqli), 'UPDATE persona ...')
+#1 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\editar_per.php on line 56
+[17-Jun-2023 21:56:05 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 101
+[17-Jun-2023 21:56:07 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where id_per=18' at line 9 in C:\xampp\htdocs\dexPokemon\editar_per.php:55
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\editar_per.php(55): mysqli_query(Object(mysqli), 'UPDATE persona ...')
+#1 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\editar_per.php on line 55
+[17-Jun-2023 21:56:36 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 100
+[17-Jun-2023 21:58:17 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 100
+[17-Jun-2023 21:58:30 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 100
+[17-Jun-2023 21:59:49 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 100
+[17-Jun-2023 22:00:21 Europe/Berlin] PHP Warning:  Undefined array key "nv__treinador" in C:\xampp\htdocs\dexPokemon\perfil.php on line 59
+[17-Jun-2023 22:03:49 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 100
+[17-Jun-2023 22:03:56 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 100
+[17-Jun-2023 22:04:51 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 100
+[17-Jun-2023 22:05:06 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 100
+[17-Jun-2023 22:06:51 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 104
+[17-Jun-2023 22:06:57 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 104
+[17-Jun-2023 22:07:08 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 104
+[17-Jun-2023 22:07:12 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 104
+[17-Jun-2023 22:07:17 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 104
+[17-Jun-2023 22:07:23 Europe/Berlin] PHP Warning:  Undefined variable $id in C:\xampp\htdocs\dexPokemon\editar_per.php on line 104

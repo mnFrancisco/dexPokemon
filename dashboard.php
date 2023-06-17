@@ -35,7 +35,17 @@ include_once("layout/head.php");
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                  
+                  <p>Metodo de Treino:
+                    Todo jogador tem seu jeito de jogar alguns gostam de força bruta outros de agilidade e coisas do tipo para isso o metodo de treino vai ser colocado ele vai funcionar 
+                    da seguinte maneira cada treinador tera um metodo de treino que vai conceder ao seus pokemon de 1 a 3 pontos adicionais em seus status de acordo com a Pericia do
+                    treinador (Mais a frente vocês vão entender oq isso quer dizer) mas aqui vamos focar apenas no metodo de treino 
+
+                    Encorajador:Ganha hp
+                    Ofensivo:Ganha Atk
+                    Resistente:Ganha Def
+                    Estrategico:Ganha Sp.Atk
+                    Protetor:Ganha Sp.Def
+                    Agil:Ganha Vel</p>
                 </div>
               </div>
             </div>

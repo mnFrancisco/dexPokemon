@@ -41,9 +41,9 @@ $id_per = $_SESSION['id'];
                 <div class="x_panel">
                   <div class="x_content">
                     <table class="table table-hover">
-                    <h2>XP.share</h2>
+                    <!--<h2>XP.share</h2>
 
-                    <!--barra para o xp caompartilhado-->
+                    barra para o xp caompartilhado
                     <form action="listar_time.php" method="POST">
                         <div class="input-group">
                             <input type="text" class="form-control" name="xpgeral" placeholder="Xp compartilhado">
@@ -52,7 +52,7 @@ $id_per = $_SESSION['id'];
                             <input class="btn btn-secondary" type="submit"></input>
                             </span>
                         </div>
-                    </form>
+                    </form>-->
                     </table>
 
                       <main>
@@ -64,13 +64,17 @@ $id_per = $_SESSION['id'];
                               <?php
                               $id=0;
                               xpshere();
-                              $sql = "SELECT * FROM poke p LEFT JOIN evs ev ON ev.id_poke= p.id_poke where p.status=1 and p.id_per=$id_per ORDER BY p.ami DESC";
+                              
+                              $sql = "SELECT p.*, ev.ev_hp, ev.ev_atk, ev.ev_satk,ev.ev_def, ev.ev_sdef, ev.ev_speed FROM poke p LEFT JOIN evs ev ON ev.id_poke = p.id_poke WHERE p.status = 1 AND p.id_per = $id_per";
                               $result = mysqli_query($_SESSION['conexao'],$sql);
 
+                              
                               while($linha = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 
+                                $id_poke = $linha['id_poke'];
                                 $nome= trim(strtolower($linha['nome']));
                                 $shiny= strtolower($linha['shyni']);
+                                 
 
                                 if($linha['regiao']  == 'paldeia'){
                                   $imagem='<a href="https://pokemondb.net/pokedex/'.$nome.'"><img src="https://img.pokemondb.net/sprites/scarlet-violet/'.$shiny.'/'.$nome.'.png" alt="'.$nome.'"></a>';
@@ -79,7 +83,6 @@ $id_per = $_SESSION['id'];
                                 }
                                 
                                 $id++;
-
                                 echo'
                                   <div  class="pokeimg">';?><button onclick="toggleVisibility('elemento<?php echo $id ?>')">Mostrar/Ocultar</button><br> <?php
                                   echo '<a href="https://bulbapedia.bulbagarden.net/wiki/Experience" target="_blank">XP: '.$linha['xp'].'</a></br>';
@@ -87,7 +90,7 @@ $id_per = $_SESSION['id'];
                                     '.$imagem.'
 
                                     <h3>'.trim(ucfirst($nome)).'</h3>
-
+                                    
                                     <div id="elemento'.$id.'">
                                       <a class="link_icon" href="editar_usuarios.php?'.md5($linha['nome']).'&'.md5($linha['shyni']).'&id='.$linha['id_poke'].'"><i class="fa fa-edit"></i></a>
 
@@ -95,9 +98,11 @@ $id_per = $_SESSION['id'];
 
                                       <p><strong>Lv:</strong> '.$linha['lv'].' <br/>
                                       <strong>Habilit:</strong> '.$linha['hab'].' <br/> 
-                                      <strong>Nature:</strong> '.$linha['nature'].'
+                                      <strong>Nature:</strong> '.$linha['nature'].'<br>
+                                      <strong>Tera:</strong> '.$linha['t_type'].'</p> <br>
+
                                       <ul class="pokestatus">
-                                          <li>Hp: '.$linha['hp'] + $linha['ev_hp'] .'</li>
+                                          <li>Hp: '.mt($linha) + $linha['ev_hp'] .'</li>
                                           <li>Atk: '.$linha['atk'] + $linha['ev_atk'].' </li>
                                           <li>Def: '.$linha['def'] + $linha['ev_def'].'</li>
                                           <li>Esp.Atk: '.$linha['satk'] + $linha['ev_satk'].'</li>

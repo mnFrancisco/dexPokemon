@@ -2,7 +2,7 @@
 include_once("layout/head.php");
 
 $fichaPer=fichaPer();
-contaSatus();
+
 
 ?>
         <!-- page content -->
@@ -56,7 +56,7 @@ contaSatus();
                           <div class="col-md-9 col-sm-9 ">
                             <div class="" role="tabpanel" data-example-id="togglable-tabs">
                               <section class="treinador">
-                                <h2>Treinador-lv:1</h2>
+                                <h2>Treinador-lv:<?php echo $fichaPer['nv_treinador']; ?></h2>
                                 <h3>M.T:<?php echo $fichaPer['mtrei']; ?></h3>
 
                                 <ul>

@@ -5,8 +5,6 @@ $user=buscausuario();
 $id_per = $_SESSION['id'];
 
 $fichaPer=fichaPer();
-$fichaClas=fichaClas();
-$fichaSkill=fichaSkill();
 
 //personagem
 if(isset($_FILES['uploaded_file']) && $_FILES['uploaded_file']['size'] > 0) {
@@ -40,10 +38,11 @@ if(isset($_POST['idade']) != ''){
 	$regiao = $_POST['regiao'];
 	$cidade = $_POST['cidade'];
 	$insig = $_POST['insig'];
+  $torneios = $_POST['torneios'];
+  $contest = $_POST['contest'];
 	$mundial = $_POST['mundial'];
   $pt_mundial = $_POST['pt_mundial'];
-  $pd = $_POST['pd'];
-  $contatos = $_POST['contatos'];
+
 
   $sqlM = "UPDATE persona SET nomeper='$nome',
   idade='$idade',
@@ -51,30 +50,12 @@ if(isset($_POST['idade']) != ''){
   regiao='$regiao',
   cidade='$cidade',
   insig='$insig',
+  torneios='$torneios',
+  contest='$contest',
   mundial='$mundial',
-  pt_mundial='$pt_mundial',
-  pd='$pd',
-  contatos='$contatos' where id_per=$id_per;";
+  pt_mundial='$pt_mundial' where id_per=$id_per";
+
   $roda_sql=mysqli_query($_SESSION['conexao'],$sqlM);
-
-  //classe
-  if(isset($_POST['nomeclas']) != ''){
-    $nome = $_POST['nomeclas'];
-    $efeito = $_POST['efeito'];
-    $bonus = $_POST['bonus'];
-    $afinidade = $_POST['afinidade'];
-    $ptorcida = $_POST['ptorcida'];
-    $evo = $_POST['evo']; 
-
-    $sqlH = "UPDATE classe SET nomeclas='$nome',
-    efeito='$efeito',
-    bonus='$bonus',
-    afinidade='$afinidade',
-    ptorcida='$ptorcida',
-    evo='$evo' where id_per=$id_per;";
-
-    $roda_sql=mysqli_query($_SESSION['conexao'],$sqlH);
-    }
 
 }
 
@@ -133,6 +114,15 @@ if(isset($_POST['idade']) != ''){
                             </div>
                             
                             <div class="item form-group">
+                              <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Nv.Treinador<span class="required">*</span>
+                              </label>
+                              <div class="col-md-6 col-sm-6 ">
+                                <input type="text" id="first-name" class="form-control " name="nomeper"  value="<?php echo $fichaPer['nv_treinador']; ?>">
+                              </div>
+                            </div>
+
+
+                            <div class="item form-group">
                               <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">Nome do personagem<span class="required">*</span>
                               </label>
                               <div class="col-md-6 col-sm-6 ">
@@ -180,6 +170,20 @@ if(isset($_POST['idade']) != ''){
                             </div>
 
                             <div class="item form-group">
+                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Torneios</label>
+                              <div class="col-md-6 col-sm-6 ">
+                                <input id="middle-name" class="form-control" type="text" name="torneios" value="<?php echo $fichaPer['torneios']; ?>">
+                              </div>
+                            </div>
+
+                            <div class="item form-group">
+                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Contest</label>
+                              <div class="col-md-6 col-sm-6 ">
+                                <input id="middle-name" class="form-control" type="text" name="contest" value="<?php echo $fichaPer['contest']; ?>">
+                              </div>
+                            </div>
+
+                            <div class="item form-group">
                               <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Ranking Mundial</label>
                               <div class="col-md-6 col-sm-6 ">
                                 <input id="middle-name" class="form-control" type="text" name="mundial" value="<?php echo $fichaPer['mundial']; ?>">
@@ -193,70 +197,7 @@ if(isset($_POST['idade']) != ''){
                               </div>
                             </div>
 
-                            <div class="item form-group">
-                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">P.d</label>
-                              <div class="col-md-6 col-sm-6 ">
-                                <input id="middle-name" class="form-control" type="text" name="pd" value="<?php echo $fichaPer['pd']; ?>">
-                              </div>
-                            </div>
-
-                            <!--Começa amigos-->
-                              <div class="item form-group">
-                                <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Amigos/Contatos</label>
-                                <div class="col-md-6 col-sm-6 ">
-                                  <input id="middle-name" class="form-control" type="text" name="contatos" value="<?php echo $fichaPer['contatos']; ?>">
-                                </div>
-                              </div>
-                              <!--Termina amigos-->
-
                             <!-- Termina Personagem -->
-
-                            <div class="ln_solid"></div>
-
-                            <!--Comaça clase-->
-                            <h2>Classe</h2>
-                            <div class="item form-group">
-                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Nome da classe <span class="required">*</span></label>
-                              <div class="col-md-6 col-sm-6 ">
-                                <input id="middle-name" class="form-control" type="text" name="nomeclas" value="<?php echo $fichaClas['nomeclas']; ?>">
-                              </div>
-                            </div>
-
-                            <div class="item form-group">
-                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Efeito</label>
-                              <div class="col-md-6 col-sm-6 ">
-                                <input id="middle-name" class="form-control" type="text" name="efeito" value="<?php echo $fichaClas['efeito']; ?>">
-                              </div>
-                            </div>
-
-                            <div class="item form-group">
-                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Afinidade</label>
-                              <div class="col-md-6 col-sm-6 ">
-                                <input id="middle-name" class="form-control" type="text" name="afinidade" value="<?php echo $fichaClas['afinidade']; ?>">
-                              </div>
-                            </div>
-
-                            <div class="item form-group">
-                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Bonus</label>
-                              <div class="col-md-6 col-sm-6 ">
-                                <input id="middle-name" class="form-control" type="text" name="bonus" value="<?php echo $fichaClas['bonus']; ?>">
-                              </div>
-                            </div>
-
-                            <div class="item form-group">
-                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Poder de torcida</label>
-                              <div class="col-md-6 col-sm-6 ">
-                                <input id="middle-name" class="form-control" type="text" name="ptorcida" value="<?php echo $fichaClas['ptorcida']; ?>">
-                              </div>
-                            </div>
-
-                            <div class="item form-group">
-                              <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Evolução</label>
-                              <div class="col-md-6 col-sm-6 ">
-                                <input id="middle-name" class="form-control" type="text" name="evo" value="<?php echo $fichaClas['evo']; ?>">
-                              </div>
-                            </div>
-                            <!--Termina clase-->
 
                             <div class="ln_solid"></div>
 
