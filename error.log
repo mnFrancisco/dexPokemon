@@ -4,3 +4,11 @@ Stack trace:
 #1 {main}
   thrown in C:\xampp\htdocs\dexPokemon\listar_time.php on line 79
 [14-Jun-2023 01:43:19 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\dexPokemon\helpers\funcao.php on line 252
+[17-Jun-2023 19:52:48 Europe/Berlin] PHP Warning:  Undefined array key "id" in C:\xampp\htdocs\dexPokemon\helpers\funcao.php on line 186
+[17-Jun-2023 19:52:48 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 in C:\xampp\htdocs\dexPokemon\helpers\funcao.php:188
+Stack trace:
+#0 C:\xampp\htdocs\dexPokemon\helpers\funcao.php(188): mysqli_query(Object(mysqli), 'SELECT * from p...')
+#1 C:\xampp\htdocs\dexPokemon\layout\head.php(5): buscausuario()
+#2 C:\xampp\htdocs\dexPokemon\listar_time.php(2): include_once('C:\\xampp\\htdocs...')
+#3 {main}
+  thrown in C:\xampp\htdocs\dexPokemon\helpers\funcao.php on line 188
