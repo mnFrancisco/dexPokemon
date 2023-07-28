@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13-Jun-2023 às 05:46
+-- Tempo de geração: 28-Jul-2023 às 23:37
 -- Versão do servidor: 10.4.25-MariaDB
 -- versão do PHP: 8.1.10
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `evs` (
-  `id_poke` int(10) DEFAULT NULL,
+  `id_poke` int(10) NOT NULL,
   `ev_hp` int(4) DEFAULT 0,
   `ev_atk` int(4) DEFAULT 0,
   `ev_def` int(4) DEFAULT 0,
@@ -36,6 +36,15 @@ CREATE TABLE `evs` (
   `ev_sdef` int(4) DEFAULT 0,
   `ev_speed` int(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `evs`
+--
+
+INSERT INTO `evs` (`id_poke`, `ev_hp`, `ev_atk`, `ev_def`, `ev_satk`, `ev_sdef`, `ev_speed`) VALUES
+(1, 1, 1, 8, 15, 10, 20),
+(2, 3, 0, 2, 5, 0, 5),
+(3, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -74,31 +83,32 @@ CREATE TABLE `npc` (
 CREATE TABLE `persona` (
   `id_persona` int(10) NOT NULL,
   `id_per` int(10) DEFAULT NULL,
+  `nv_treinador` int(2) DEFAULT 1,
   `nomeper` varchar(20) DEFAULT NULL,
   `regiao` varchar(20) DEFAULT NULL,
   `cidade` varchar(20) DEFAULT NULL,
   `idade` int(4) DEFAULT NULL,
+  `mtrei` varchar(20) NOT NULL,
   `id_trei` varchar(4) DEFAULT NULL,
   `mundial` varchar(4) DEFAULT NULL,
   `pt_mundial` int(10) NOT NULL DEFAULT 0,
   `insig` varchar(4) DEFAULT NULL,
+  `torneios` varchar(3) NOT NULL DEFAULT '''0''',
+  `contest` varchar(3) NOT NULL DEFAULT '''0''',
   `hp` varchar(4) NOT NULL DEFAULT '20',
   `stamina` varchar(4) NOT NULL DEFAULT '20',
   `determinacao` varchar(4) NOT NULL DEFAULT '20',
   `altura` varchar(3) NOT NULL,
   `peso` varchar(3) NOT NULL,
-  `dex` int(11) NOT NULL,
-  `mtrei` varchar(20) NOT NULL,
-  `torneios` varchar(3) NOT NULL DEFAULT '0',
-  `contest` varchar(3) NOT NULL DEFAULT '0'
+  `dex` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `persona`
 --
 
-INSERT INTO `persona` (`id_persona`, `id_per`, `nomeper`, `regiao`, `cidade`, `idade`, `id_trei`, `mundial`, `pt_mundial`, `insig`, `hp`, `stamina`, `determinacao`, `altura`, `peso`, `dex`, `mtrei`, `torneios`, `contest`) VALUES
-(4, 18, 'Violetta Sold', 'Unova', 'Opelucid', 12, '524', '1800', 121, '2', '20', '20', '20', '1.5', '45', 0, 'Emcorajador', '0', '0');
+INSERT INTO `persona` (`id_persona`, `id_per`, `nv_treinador`, `nomeper`, `regiao`, `cidade`, `idade`, `mtrei`, `id_trei`, `mundial`, `pt_mundial`, `insig`, `torneios`, `contest`, `hp`, `stamina`, `determinacao`, `altura`, `peso`, `dex`) VALUES
+(4, 18, 1, 'Vi', 'Unova', 'Opelucid', 12, 'Emcorajador', '524', '2000', 121, '3', '0', '0', '20', '20', '20', '1.5', '45', 0);
 
 -- --------------------------------------------------------
 
@@ -131,7 +141,7 @@ CREATE TABLE `poke` (
   `id_per` int(10) NOT NULL,
   `nome` varchar(30) DEFAULT NULL,
   `tipo` varchar(200) NOT NULL,
-  `regiao` varchar(100) NOT NULL DEFAULT 'kanto',
+  `regiao` varchar(100) DEFAULT 'kanto',
   `xp_combate` tinyint(1) NOT NULL DEFAULT 0,
   `crescimento` varchar(200) NOT NULL,
   `t_type` varchar(50) DEFAULT NULL,
@@ -158,7 +168,9 @@ CREATE TABLE `poke` (
 --
 
 INSERT INTO `poke` (`id_poke`, `id_per`, `nome`, `tipo`, `regiao`, `xp_combate`, `crescimento`, `t_type`, `hab`, `nature`, `xp`, `lv`, `hp`, `atk`, `satk`, `def`, `sdef`, `speed`, `desloc`, `ami`, `moves`, `tcap`, `shyni`, `status`) VALUES
-(2, 18, 'lucario', 'fighting, steel', 'Unova', 0, '', 'none', 'Protean', 'naughty', 3314, 12, 70, 121, 115, 70, 63, 90, NULL, 0, 'grwol / thander wave / quick atack / tail whip', NULL, 'normal', 0);
+(1, 18, 'lucario', 'fighting, steel', 'kanto', 0, '', 'none', 'Protean', 'naughty', 3314, 25, 70, 121, 115, 70, 63, 90, NULL, 0, 'Peck / Sand Attack / Lerr / Fury Cutter', NULL, 'normal', 1),
+(2, 18, 'armarouge', 'fire, psychic', 'paldeia', 0, '', 'Grass', 'Weak Armor', 'Lax', 3314, 5, 85, 60, 125, 110, 72, 75, NULL, 30, 'Bite / Slash / Taunt / Assurance ', NULL, 'normal', 1),
+(3, 18, 'ralts', 'psychic, fairy', '', 0, '', 'Água', 'Inner Focus', 'Timid', 3314, 1, 28, 23, 45, 25, 35, 44, NULL, 12, 'Bite / Slash / Taunt / Assurance ', NULL, 'shiny', 1);
 
 -- --------------------------------------------------------
 
@@ -258,7 +270,7 @@ ALTER TABLE `personagem`
 -- AUTO_INCREMENT de tabela `poke`
 --
 ALTER TABLE `poke`
-  MODIFY `id_poke` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_poke` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_fotos`
